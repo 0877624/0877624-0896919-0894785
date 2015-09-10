@@ -85,6 +85,13 @@ namespace DesPat
                 for(int i = 0; i < automaticMovement.Count; i++)
                 {
                     AutoMoveObj obj = automaticMovement[i];
+                    foreach (Player collisionCheck in playerList)
+                    {
+                        if (obj.getObject().checkCollision(collisionCheck.getTextureObj()))
+                        {
+                            System.Diagnostics.Debug.WriteLine("COLLISION");
+                        }
+                    }
                     if (obj.getSecondsLeft() != 0)
                     {
                         obj.getObject().addToLocation(obj.toAddX, obj.toAddY);

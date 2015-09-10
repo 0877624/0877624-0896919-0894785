@@ -113,5 +113,38 @@ namespace DesPat
         {
             return angle;
         }
+        public bool checkCollision(TextureObj obj)
+        {
+            //System.Diagnostics.Debug.WriteLine("Checking for Collision");
+            //System.Diagnostics.Debug.WriteLine("This BL X: " + this.hitboxBL.X + ", collision BL X: " + obj.hitboxBL.X + ", collision BR X: " + obj.hitboxBR.X);
+            //System.Diagnostics.Debug.WriteLine("This BL X: " + this.hitboxBL.X + ", collision BR X: " + obj.hitboxBR.X);
+            if (this.hitboxBL.X >= obj.hitboxBL.X && this.hitboxBL.X <= obj.hitboxBR.X)
+            {
+                //System.Diagnostics.Debug.WriteLine("BL left in image1");
+                //System.Diagnostics.Debug.WriteLine("This BL Y: " + this.hitboxBL.Y + ", collision BL Y: " + obj.hitboxBL.Y + ", collision TL Y: " + obj.hitboxTL.Y);
+                //System.Diagnostics.Debug.WriteLine("This BL Y: " + this.hitboxBL.Y + ", collision TL Y: " + obj.hitboxTL.Y);
+                if (this.hitboxBL.Y <= obj.hitboxBL.Y && this.hitboxBL.Y >= obj.hitboxTL.Y)
+                {
+                    return true;
+                }
+                else if (this.hitboxTL.Y <= obj.hitboxBL.Y && this.hitboxTL.Y >= obj.hitboxTL.Y)
+                {
+                    return true;
+                }
+            }
+            else if (this.hitboxBR.X >= obj.hitboxBL.X && this.hitboxBR.X <= obj.hitboxBR.X)
+            {
+                if (this.hitboxBL.Y <= obj.hitboxBL.Y && this.hitboxBL.Y >= obj.hitboxTL.Y)
+                {
+                    return true;
+                }
+                else if (this.hitboxTL.Y <= obj.hitboxBL.Y && this.hitboxTL.Y >= obj.hitboxTL.Y)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }
