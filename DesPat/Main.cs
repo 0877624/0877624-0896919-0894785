@@ -43,14 +43,16 @@ namespace DesPat
             addAsActive(new TextureObj(bg, new Vector2(0,0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0, new Vector2(bg.Width / 2, bg.Height / 2), 1.0f, SpriteEffects.None, 1));
 
             //Load player images and create player Objects.
+            System.Diagnostics.Debug.WriteLine("Making a player ");
+
             Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
             imageList.Add(playerImage);
-            createPlayer(imageList.Find(name => name.Name == "Banana.png"), 300, 400, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space);
+            createPlayer(imageList.Find(name => name.Name == "Banana.png"), 200, 250, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space);
 
+            System.Diagnostics.Debug.WriteLine("Making a player ");
             Texture2D player2Image = Content.Load<Texture2D>("Tomato.png");
             imageList.Add(player2Image);
-            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), 200, 200, 2.5f, 5f, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.RightShift);
-
+            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), 600, 250, 2.5f, 5f, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.RightShift);
 
             //load the seed image.
             Texture2D seedImage = Content.Load<Texture2D>("Seed.png");
@@ -60,8 +62,7 @@ namespace DesPat
 
         private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot)
         {
-            TextureObj playerObj = new TextureObj(playerImage, new Vector2(0, 0), new Rectangle(0, 0, playerImage.Width, playerImage.Height), Color.White, 0, new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1);
-            playerObj.changeLocation(x, y);
+            TextureObj playerObj = new TextureObj(playerImage, new Vector2(x, y), new Rectangle(0, 0, playerImage.Width, playerImage.Height), Color.White, 0, new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1);
 
             addAsActive(playerObj);
             playerList.Add(new Player(playerObj, movementSpeed, rotateSpeed, up, left, down, right, shoot));

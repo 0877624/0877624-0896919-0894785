@@ -119,5 +119,10 @@ namespace DesPat
             Texture2D seedImage = Main.imageList.Find(name => name.Name == "Seed.png");
             return new TextureObj(seedImage, textureObj.getLocation(), new Rectangle(0, 0, seedImage.Width, seedImage.Height), Color.White, 0, new Vector2(seedImage.Width / 2, seedImage.Height / 2), 1.0f, SpriteEffects.None, 1);
         }
+
+        public void checkCollision()
+        {
+
+        }
     }
 }
