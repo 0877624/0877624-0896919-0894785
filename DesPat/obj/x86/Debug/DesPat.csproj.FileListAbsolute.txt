@@ -1,0 +1,57 @@
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\DesPat.exe
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\DesPat.pdb
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\MonoGame.Framework.dll
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.MediaFoundation.dll
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.dll
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.XAudio2.dll
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct3D11.dll
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.DXGI.dll
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct2D1.dll
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.XInput.dll
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.RawInput.dll
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.dll
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\MonoGame.Framework.xml
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.MediaFoundation.xml
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.xml
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.XAudio2.xml
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct3D11.xml
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.DXGI.xml
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct2D1.xml
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.XInput.xml
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.RawInput.xml
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.xml
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\obj\x86\Debug\DesPat.csprojResolveAssemblyReference.cache
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\obj\x86\Debug\DesPat.exe
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\obj\x86\Debug\DesPat.pdb
+c:\users\junov_000\documents\visual studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\Content\Banana.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\Content\Seed.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\DesPat\bin\Windows\Debug\Content\Tomato.png
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\obj\x86\Debug\DesPat.exe
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\obj\x86\Debug\DesPat.pdb
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\Content\Banana.png
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\Content\Seed.png
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\Content\Tomato.png
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\DesPat.exe
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\DesPat.pdb
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\MonoGame.Framework.dll
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.MediaFoundation.dll
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.dll
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.XAudio2.dll
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct3D11.dll
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.DXGI.dll
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct2D1.dll
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.XInput.dll
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.RawInput.dll
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.dll
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\MonoGame.Framework.xml
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.MediaFoundation.xml
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.xml
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.XAudio2.xml
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct3D11.xml
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.DXGI.xml
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct2D1.xml
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.XInput.xml
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.RawInput.xml
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.xml
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\obj\x86\Debug\DesPat.csprojResolveAssemblyReference.cache
+C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\Content\space.jpg
