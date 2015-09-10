@@ -38,7 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AutoMoveObj.cs" />
+    <Compile Include="AutoMoveSeed.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="TextureObj.cs" />
@@ -60,7 +60,7 @@
     <Content Include="Content\Seed.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\space.jpg">
+    <Content Include="Content\Space.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Tomato.png">

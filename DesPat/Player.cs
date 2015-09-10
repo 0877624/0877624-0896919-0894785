@@ -10,6 +10,7 @@ namespace DesPat
 {
     public class Player
     {
+        private int playerNumber;
         private TextureObj textureObj;
         private Keys left;
         private Keys right;
@@ -22,8 +23,9 @@ namespace DesPat
 
         private long lastShot = 0;
 
-        public Player(TextureObj textureObj, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot)
+        public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot)
         {
+            this.playerNumber = playerNumber;
             this.textureObj = textureObj;
             this.movementSpeed = movementSpeed;
             this.rotateSpeed = rotateSpeed;
@@ -99,7 +101,7 @@ namespace DesPat
             {
                 if (lastShot == 0 || (DateTime.Now.Ticks - lastShot) / 5000000 >= 1)
                 {
-                    shootSeed(10.0, 5f);
+                    shootSeed(playerNumber, 5.0, 5f);
                     lastShot = DateTime.Now.Ticks;
                 }
             }
@@ -107,21 +109,25 @@ namespace DesPat
             textureObj.changeAngle(angle);
             textureObj.addToLocation(movementDelta);
         }
-        public void shootSeed(double seconds, float speed)
+        public void shootSeed(int playerNumber, double seconds, float speed)
         {
             TextureObj seedObj = createSeedObject();
             Main.activeObjects.Add(seedObj);
-            Main.automaticMovement.Add(new AutoMoveObj(seedObj, seconds, speed, textureObj.getAngle()));
+            Main.automaticMovement.Add(new AutoMoveSeed(playerNumber, seedObj, seconds, speed, textureObj.getAngle()));
         }
 
         public TextureObj createSeedObject()
         {
             Texture2D seedImage = Main.imageList.Find(name => name.Name == "Seed.png");
-            return new TextureObj(seedImage, textureObj.getLocation(), new Rectangle(0, 0, seedImage.Width, seedImage.Height), Color.White, 0, new Vector2(seedImage.Width / 2, seedImage.Height / 2), 1.0f, SpriteEffects.None, 1);
+            return new TextureObj(seedImage, textureObj.getLocation(), new Rectangle(0, 0, seedImage.Width, seedImage.Height), Color.White, 0, new Vector2(seedImage.Width / 2, seedImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Seed");
         }
         public TextureObj getTextureObj()
         {
             return textureObj;
+        }
+        public int getPlayerNumber()
+        {
+            return playerNumber;
         }
     }
 }
