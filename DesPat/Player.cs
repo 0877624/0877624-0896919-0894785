@@ -20,6 +20,8 @@ namespace DesPat
         private float movementSpeed;
         private float rotateSpeed;
 
+        private long lastShot = 0;
+
         public Player(TextureObj textureObj, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot)
         {
             this.textureObj = textureObj;
@@ -95,7 +97,11 @@ namespace DesPat
             }
             if (KBS.IsKeyDown(shoot))
             {
-                shootSeed(10.0, 5f);
+                if (lastShot == 0 || (DateTime.Now.Ticks - lastShot) / 5000000 >= 1)
+                {
+                    shootSeed(10.0, 5f);
+                    lastShot = DateTime.Now.Ticks;
+                }
             }
 
             textureObj.changeAngle(angle);

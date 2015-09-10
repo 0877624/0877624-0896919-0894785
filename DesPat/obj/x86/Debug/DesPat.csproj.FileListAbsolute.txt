@@ -55,3 +55,32 @@ C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.RawInput
 C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.xml
 C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\obj\x86\Debug\DesPat.csprojResolveAssemblyReference.cache
 C:\Users\kevin\Downloads\DesPat\DesPat\DesPat\bin\Windows\Debug\Content\space.jpg
+D:\Projects\Design Patterns\DesPat\obj\x86\Debug\DesPat.exe
+D:\Projects\Design Patterns\DesPat\obj\x86\Debug\DesPat.pdb
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Banana.png
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Seed.png
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\space.jpg
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Tomato.png
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\DesPat.exe
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\DesPat.pdb
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\MonoGame.Framework.dll
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.MediaFoundation.dll
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.dll
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.XAudio2.dll
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.Direct3D11.dll
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.DXGI.dll
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.Direct2D1.dll
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.XInput.dll
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.RawInput.dll
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.dll
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\MonoGame.Framework.xml
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.MediaFoundation.xml
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.xml
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.XAudio2.xml
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.Direct3D11.xml
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.DXGI.xml
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.Direct2D1.xml
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.XInput.xml
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.RawInput.xml
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.xml
+D:\Projects\Design Patterns\DesPat\obj\x86\Debug\DesPat.csprojResolveAssemblyReference.cache

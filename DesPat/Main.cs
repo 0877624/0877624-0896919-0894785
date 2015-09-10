@@ -45,11 +45,11 @@ namespace DesPat
             //Load player images and create player Objects.
             Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
             imageList.Add(playerImage);
-            createPlayer(imageList.Find(name => name.Name == "Banana.png"), 300, 400, 10f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space);
+            createPlayer(imageList.Find(name => name.Name == "Banana.png"), 300, 400, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space);
 
             Texture2D player2Image = Content.Load<Texture2D>("Tomato.png");
             imageList.Add(player2Image);
-            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), 200, 200, 10f, 5f, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.RightShift);
+            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), 200, 200, 2.5f, 5f, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.RightShift);
 
 
             //load the seed image.
