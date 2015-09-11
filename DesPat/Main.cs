@@ -54,7 +54,7 @@ namespace DesPat
             System.Diagnostics.Debug.WriteLine("Making a player ");
             Texture2D player2Image = Content.Load<Texture2D>("Tomato.png");
             imageList.Add(player2Image);
-            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), 600, 250, 2.5f, 5f, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.RightShift);
+            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), 600, 250, 2.5f, 5f, PlayerIndex.One);
 
             //load the seed image.
             Texture2D seedImage = Content.Load<Texture2D>("Seed.png");
@@ -69,6 +69,14 @@ namespace DesPat
 
             addAsActive(playerObj);
             playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, up, left, down, right, shoot));
+        }
+        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, PlayerIndex playerIndex)
+        {
+            playerAmount++;
+            TextureObj playerObj = new TextureObj(playerAmount, playerImage, new Vector2(x, y), new Rectangle(0, 0, playerImage.Width, playerImage.Height), Color.White, 0, new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Player");
+
+            addAsActive(playerObj);
+            playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, playerIndex));
         }
 
         /// <summary>

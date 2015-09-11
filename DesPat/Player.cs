@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +18,9 @@ namespace DesPat
         private Keys shoot;
         private Keys up;
 
+        private bool controller;
+        private PlayerIndex playerIndex;
+
         private float movementSpeed;
         private float rotateSpeed;
 
@@ -34,16 +37,38 @@ namespace DesPat
             this.down = down;
             this.right = right;
             this.shoot = shoot;
+            controller = false;
+        }
+        public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, PlayerIndex playerIndex)
+        {
+            this.playerNumber = playerNumber;
+            this.textureObj = textureObj;
+            this.movementSpeed = movementSpeed;
+            this.rotateSpeed = rotateSpeed;
+            this.playerIndex = playerIndex;
+            controller = true;
         }
 
         public void checkKeys()
         {
-            var KBS = Keyboard.GetState();
+            if(controller == true)
+            {
+                var gpd = GamePad.GetState(playerIndex);
+                executeKeys(gpd.ThumbSticks.Left.Y > 0f, gpd.ThumbSticks.Right.X < 0f, gpd.ThumbSticks.Left.Y < 0f, gpd.ThumbSticks.Right.X > 0f, gpd.Triggers.Right == 1.0f);
+            }
+            else
+            {
+                var KBS = Keyboard.GetState();
+                executeKeys(KBS.IsKeyDown(up), KBS.IsKeyDown(left), KBS.IsKeyDown(down), KBS.IsKeyDown(right), KBS.IsKeyDown(shoot));
+            }
 
+          
+        }
+        private void executeKeys(bool up, bool left, bool down, bool right, bool shoot)
+        {
             var movementDelta = Vector2.Zero;
             float angle = textureObj.getAngle();
-
-            if (KBS.IsKeyDown(up))
+            if (up)
             {
                 if (angle >= 0 && angle < 90)
                 {
@@ -66,11 +91,11 @@ namespace DesPat
                     movementDelta.Y -= movementSpeed * (2f - ((360 - angle) / 45));
                 }
             }
-            if (KBS.IsKeyDown(left))
+            if (left)
             {
                 angle -= rotateSpeed;
             }
-            if (KBS.IsKeyDown(down))
+            if (down)
             {
                 if (angle >= 0 && angle < 90)
                 {
@@ -93,11 +118,11 @@ namespace DesPat
                     movementDelta.Y += movementSpeed * (2f - ((360 - angle) / 45));
                 }
             }
-            if (KBS.IsKeyDown(right))
+            if (right)
             {
                 angle += rotateSpeed;
             }
-            if (KBS.IsKeyDown(shoot))
+            if (shoot)
             {
                 if (lastShot == 0 || (DateTime.Now.Ticks - lastShot) / 5000000 >= 1)
                 {

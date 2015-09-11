@@ -39,7 +39,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AutoMoveSeed.cs" />
-    <Compile Include="Controller.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="TextureObj.cs" />
     <Compile Include="Main.cs" />
