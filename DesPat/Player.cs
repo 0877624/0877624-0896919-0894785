@@ -26,7 +26,11 @@ namespace DesPat
 
         private long lastShot = 0;
 
-        public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot)
+        private int health = 3;
+
+        private Vector2 healthBarLocation;
+
+        public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot, Vector2 healthBarLocation)
         {
             this.playerNumber = playerNumber;
             this.textureObj = textureObj;
@@ -37,16 +41,26 @@ namespace DesPat
             this.down = down;
             this.right = right;
             this.shoot = shoot;
+            this.healthBarLocation = healthBarLocation;
             controller = false;
+
+            String objName = "Life-" + health + ".png";
+            Texture2D healthBar = Main.imageList.Find(obj => obj.Name == objName);
+            Main.activeObjects.Add(new TextureObj(healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
         }
-        public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, PlayerIndex playerIndex)
+        public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, PlayerIndex playerIndex, Vector2 healthBarLocation)
         {
             this.playerNumber = playerNumber;
             this.textureObj = textureObj;
             this.movementSpeed = movementSpeed;
             this.rotateSpeed = rotateSpeed;
             this.playerIndex = playerIndex;
+            this.healthBarLocation = healthBarLocation;
             controller = true;
+
+            String objName = "Life-" + health + ".png";
+            Texture2D healthBar = Main.imageList.Find(obj => obj.Name == objName);
+            Main.activeObjects.Add(new TextureObj(healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
         }
 
         public void checkKeys()
@@ -140,21 +154,12 @@ namespace DesPat
             Main.activeObjects.Add(projectileObj);
             Main.automaticMovement.Add(new AutoMoveSeed(playerNumber, projectileObj, seconds, speed, textureObj.getAngle()));
         }
-
-        //############################ Old Method ############################//
-        //public TextureObj createSeedObject()
-        //{
-        //    Texture2D seedImage = Main.imageList.Find(name => name.Name == "Seed.png");
-        //    return new TextureObj(seedImage, textureObj.getLocation(), new Rectangle(0, 0, seedImage.Width, seedImage.Height), Color.White, 0, new Vector2(seedImage.Width / 2, seedImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Seed");
-        //}
-
-        //############################  New Method ############################//
         public TextureObj createProjectileObject(int playerNumber)
         {
             Texture2D projectileImage;
             String projectileType;
 
-            if(playerNumber == 1)
+            if (playerNumber == 1)
             {
                 projectileImage = Main.imageList.Find(name => name.Name == "Projectile-banana.png");
                 projectileType = "Banana slice";
@@ -171,9 +176,17 @@ namespace DesPat
             }
             return new TextureObj(projectileImage, textureObj.getLocation(), new Rectangle(0, 0, projectileImage.Width, projectileImage.Height), Color.White, 0, new Vector2(projectileImage.Width / 2, projectileImage.Height / 2), 1.0f, SpriteEffects.None, 1, projectileType);
         }
-        //############################ Ending method ############################//
-
-
+        public void changeHealth(int newHealth)
+        {
+            health = newHealth;
+            Main.activeObjects.Remove(Main.activeObjects.Find(obj => obj.getPlayerNumber() == playerNumber && obj.getType() == "Health"));
+            Texture2D healthBar = Main.imageList.Find(obj => obj.Name == "Life-" + health + ".png");
+            Main.activeObjects.Add(new TextureObj(healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
+        }
+        public int getHealth()
+        {
+            return health;
+        }
         public TextureObj getTextureObj()
         {
             return textureObj;

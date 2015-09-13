@@ -118,4 +118,4 @@ D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Projectile-tomato.p
 D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Life-0.png
 D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Life-1.png
 D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Life-2.png
-D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Life-Full.png
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Life-3.png

@@ -65,7 +65,7 @@
     <Content Include="Content\Life-2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Life-Full.png">
+    <Content Include="Content\Life-3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Projectile-banana.png">

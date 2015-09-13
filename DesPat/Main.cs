@@ -44,18 +44,6 @@ namespace DesPat
             imageList.Add(bg);
             addAsActive(new TextureObj(bg, new Vector2(0,0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0, new Vector2(bg.Width / 2, bg.Height / 2), 1.0f, SpriteEffects.None, 1, "Background"));
 
-            //Load player images and create player Objects.
-            System.Diagnostics.Debug.WriteLine("Making a player ");
-
-            Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
-            imageList.Add(playerImage);
-            createPlayer(imageList.Find(name => name.Name == "Banana.png"), 200, 250, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space);
-
-            System.Diagnostics.Debug.WriteLine("Making a player ");
-            Texture2D player2Image = Content.Load<Texture2D>("Tomato.png");
-            imageList.Add(player2Image);
-            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), 600, 250, 2.5f, 5f, PlayerIndex.One);
-
             //############################################################################################################################################
             //Load Banana Projectile image.
             Texture2D projectileBananaImage = Content.Load<Texture2D>("Projectile-banana.png");
@@ -71,23 +59,45 @@ namespace DesPat
             Texture2D seedImage = Content.Load<Texture2D>("Seed.png");
             imageList.Add(seedImage);
             System.Diagnostics.Debug.WriteLine("SeedName: " + seedImage.Name);
+
+            //Load health images.
+            Texture2D health3Image = Content.Load<Texture2D>("Life-3.png");
+            imageList.Add(health3Image);
+            Texture2D health2Image = Content.Load<Texture2D>("Life-2.png");
+            imageList.Add(health2Image);
+            Texture2D health1Image = Content.Load<Texture2D>("Life-1.png");
+            imageList.Add(health1Image);
+            Texture2D health0Image = Content.Load<Texture2D>("Life-0.png");
+            imageList.Add(health0Image);
+
+            //Load player images and create player Objects.
+            System.Diagnostics.Debug.WriteLine("Making a player ");
+
+            Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
+            imageList.Add(playerImage);
+            createPlayer(imageList.Find(name => name.Name == "Banana.png"), 200, 250, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
+
+            System.Diagnostics.Debug.WriteLine("Making a player ");
+            Texture2D player2Image = Content.Load<Texture2D>("Tomato.png");
+            imageList.Add(player2Image);
+            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), 600, 250, 2.5f, 5f, PlayerIndex.One, new Vector2(752, 16));
         }
 
-        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot)
+        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot, Vector2 healthBarLocation)
         {
             playerAmount++;
             TextureObj playerObj = new TextureObj(playerAmount, playerImage, new Vector2(x, y), new Rectangle(0, 0, playerImage.Width, playerImage.Height), Color.White, 0, new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Player");
 
             addAsActive(playerObj);
-            playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, up, left, down, right, shoot));
+            playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, up, left, down, right, shoot, healthBarLocation));
         }
-        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, PlayerIndex playerIndex)
+        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, PlayerIndex playerIndex, Vector2 healthBarLocation)
         {
             playerAmount++;
             TextureObj playerObj = new TextureObj(playerAmount, playerImage, new Vector2(x, y), new Rectangle(0, 0, playerImage.Width, playerImage.Height), Color.White, 0, new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Player");
 
             addAsActive(playerObj);
-            playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, playerIndex));
+            playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, playerIndex, healthBarLocation));
         }
 
         /// <summary>
@@ -130,7 +140,8 @@ namespace DesPat
                                     {
                                         System.Diagnostics.Debug.WriteLine("Seed from player: " + obj.getPlayerNumber() + " has COLLISION with Player: " + collisionCheck.getPlayerNumber());
                                         //Here you can handle the collision with a player, like lowering the HP of the hit target.
-
+                                        Player hitPlayer = playerList.Find(player => player.getPlayerNumber() == collisionCheck.getPlayerNumber());
+                                        hitPlayer.changeHealth(hitPlayer.getHealth());
 
                                     }
                                     //else the hit object is not a player.
@@ -202,7 +213,6 @@ namespace DesPat
             spriteBatch.End();
             base.Draw(gameTime);
         }
-
         public void addAsActive(TextureObj obj)
         {
             activeObjects.Add(obj);
