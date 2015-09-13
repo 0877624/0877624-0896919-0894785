@@ -24,6 +24,7 @@ namespace DesPat
 
 
         private int playerAmount = 0;
+        private static bool forceExit = false;
 
         public Main()
         {
@@ -130,7 +131,7 @@ namespace DesPat
                         bool collidable = true;
 
                         //in this if statement, add any Type which shouldnt collide with seeds. Like background and GUI.
-                        if(collisionCheck.getType().Equals("Background"))
+                        if(collisionCheck.getType().Equals("Background") || collisionCheck.getType().Equals("Healthbar"))
                         {
                             collidable = false;
                         }
@@ -199,6 +200,11 @@ namespace DesPat
             var KBS = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || KBS.IsKeyDown(Keys.Escape))
                 Exit();
+            if(forceExit)
+            {
+                Exit();
+            }
+
 
             //System.Diagnostics.Debug.WriteLine("Angle: " + angle);
             base.Update(gameTime);
@@ -244,6 +250,10 @@ namespace DesPat
         {
             toDeactivateObjects.Add(obj);
             changeInActives = true;
+        }
+        public static void ExitGame()
+        {
+            forceExit = true;
         }
     }
 }
