@@ -56,11 +56,6 @@ namespace DesPat
             imageList.Add(player2Image);
             createPlayer(imageList.Find(name => name.Name == "Tomato.png"), 600, 250, 2.5f, 5f, PlayerIndex.One);
 
-            //load the seed image.
-            Texture2D seedImage = Content.Load<Texture2D>("Seed.png");
-            imageList.Add(seedImage);
-            System.Diagnostics.Debug.WriteLine("SeedName: " + seedImage.Name);
-
             //############################################################################################################################################
             //Load Banana Projectile image.
             Texture2D projectileBananaImage = Content.Load<Texture2D>("Projectile-banana.png");
@@ -71,6 +66,11 @@ namespace DesPat
             imageList.Add(projectileTomatoImage);
             System.Diagnostics.Debug.WriteLine("Tomato projectile: " + projectileTomatoImage.Name);
             //############################################################################################################################################
+
+            //load the seed image.
+            Texture2D seedImage = Content.Load<Texture2D>("Seed.png");
+            imageList.Add(seedImage);
+            System.Diagnostics.Debug.WriteLine("SeedName: " + seedImage.Name);
         }
 
         private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot)

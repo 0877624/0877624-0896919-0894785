@@ -152,26 +152,24 @@ namespace DesPat
         public TextureObj createProjectileObject(int playerNumber)
         {
             Texture2D projectileImage;
-            String tempName;
+            String projectileType;
 
             if(playerNumber == 1)
             {
                 projectileImage = Main.imageList.Find(name => name.Name == "Projectile-banana.png");
-                tempName = "Banana slice";
-                return new TextureObj(projectileImage, textureObj.getLocation, new Rectangle(0, 0, projectileImage.Width, projectileImage.Height), Color.White, 0, new Vector2(projectileImage.Width / 2, projectileImage.Height / 2), 1.0f, SpriteEffects.None, 1, tempName);
+                projectileType = "Banana slice";
             }
-            if (playerNumber == 2)
+            else if (playerNumber == 2)
             {
                 projectileImage = Main.imageList.Find(name => name.Name == "Projectile-tomato.png");
-                tempName = "Tomato Slice";
-                return new TextureObj(projectileImage, textureObj.getLocation, new Rectangle(0, 0, projectileImage.Width, projectileImage.Height), Color.White, 0, new Vector2(projectileImage.Width / 2, projectileImage.Height / 2), 1.0f, SpriteEffects.None, 1, tempName);
+                projectileType = "Tomato Slice";
             }
             else
             {
                 projectileImage = Main.imageList.Find(name => name.Name == "Seed.png");
-                tempName = "Seed";
-                return new TextureObj(projectileImage, textureObj.getLocation, new Rectangle(0, 0, projectileImage.Width, projectileImage.Height), Color.White, 0, new Vector2(projectileImage.Width / 2, projectileImage.Height / 2), 1.0f, SpriteEffects.None, 1, tempName);
+                projectileType = "Seed";
             }
+            return new TextureObj(projectileImage, textureObj.getLocation(), new Rectangle(0, 0, projectileImage.Width, projectileImage.Height), Color.White, 0, new Vector2(projectileImage.Width / 2, projectileImage.Height / 2), 1.0f, SpriteEffects.None, 1, projectileType);
         }
         //############################ Ending method ############################//
 
