@@ -18,6 +18,10 @@ namespace DesPat
         public static List<Texture2D> imageList = new List<Texture2D>();
         public static List<AutoMoveSeed> automaticMovement = new List<AutoMoveSeed>();
         public static List<Player> playerList = new List<Player>();
+        private static List<TextureObj> toActivateObjects = new List<TextureObj>();
+        private static List<TextureObj> toDeactivateObjects = new List<TextureObj>();
+        private static bool changeInActives = false;
+
 
         private int playerAmount = 0;
 
@@ -110,6 +114,10 @@ namespace DesPat
         }
         protected override void Update(GameTime gameTime)
         {
+            if (changeInActives)
+            {
+                addActives();
+            }
             //System.Diagnostics.Debug.WriteLine("A Frame!");
             if (automaticMovement.Count != 0)
             {
@@ -139,9 +147,9 @@ namespace DesPat
                                     if (collisionCheck.getPlayerNumber() != 0)
                                     {
                                         System.Diagnostics.Debug.WriteLine("Seed from player: " + obj.getPlayerNumber() + " has COLLISION with Player: " + collisionCheck.getPlayerNumber());
-                                        //Here you can handle the collision with a player, like lowering the HP of the hit target.
+                                        //Here you can handle the collision with a player, lowering the HP of the hit target.
                                         Player hitPlayer = playerList.Find(player => player.getPlayerNumber() == collisionCheck.getPlayerNumber());
-                                        hitPlayer.changeHealth(hitPlayer.getHealth());
+                                        hitPlayer.changeHealth(hitPlayer.getHealth() - 1);
 
                                     }
                                     //else the hit object is not a player.
@@ -213,13 +221,29 @@ namespace DesPat
             spriteBatch.End();
             base.Draw(gameTime);
         }
-        public void addAsActive(TextureObj obj)
+        private void addActives()
         {
-            activeObjects.Add(obj);
+            foreach (TextureObj waitingObj in toActivateObjects)
+            {
+                activeObjects.Add(waitingObj);
+            }
+            toActivateObjects.Clear();
+            foreach (TextureObj waitingObj in toDeactivateObjects)
+            {
+                activeObjects.Remove(waitingObj);
+            }
+            toDeactivateObjects.Clear();
+            changeInActives = false;
         }
-        public void removeAsActive(TextureObj obj)
+        public static void addAsActive(TextureObj obj)
         {
-            activeObjects.Remove(obj);
+            toActivateObjects.Add(obj);
+            changeInActives = true;
+        }
+        public static void removeAsActive(TextureObj obj)
+        {
+            toDeactivateObjects.Add(obj);
+            changeInActives = true;
         }
     }
 }
