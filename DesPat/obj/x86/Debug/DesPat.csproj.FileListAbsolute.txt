@@ -113,3 +113,9 @@ C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debu
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\SharpDX.RawInput.xml
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.xml
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\obj\x86\Debug\DesPat.csprojResolveAssemblyReference.cache
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Projectile-banana.png
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Projectile-tomato.png
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Life-0.png
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Life-1.png
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Life-2.png
+D:\Projects\Design Patterns\DesPat\bin\Windows\Debug\Content\Life-Full.png

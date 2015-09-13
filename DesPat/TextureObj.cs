@@ -29,6 +29,16 @@ namespace DesPat
         Vector2 hitboxTR;
         Vector2 hitboxBL;
         Vector2 hitboxBR;
+        private Texture2D projectileImage;
+        private Func<Vector2> getLocation1;
+        private Rectangle rectangle;
+        private Color white;
+        private int v1;
+        private Vector2 vector2;
+        private float v2;
+        private SpriteEffects none;
+        private int v3;
+        private string v4;
 
         public TextureObj(Texture2D texture, Vector2 location, Rectangle sourceRectangle, Color color, float angle, Vector2 origin, float scale, SpriteEffects effects, float layerDepth, String type)
         {
@@ -71,6 +81,20 @@ namespace DesPat
 
             //System.Diagnostics.Debug.WriteLine("X: " + hitboxTL.X);
             //System.Diagnostics.Debug.WriteLine("Y: " + hitboxTL.Y);
+        }
+
+        public TextureObj(Texture2D projectileImage, Func<Vector2> getLocation1, Rectangle rectangle, Color white, int v1, Vector2 vector2, float v2, SpriteEffects none, int v3, string v4)
+        {
+            this.projectileImage = projectileImage;
+            this.getLocation1 = getLocation1;
+            this.rectangle = rectangle;
+            this.white = white;
+            this.v1 = v1;
+            this.vector2 = vector2;
+            this.v2 = v2;
+            this.none = none;
+            this.v3 = v3;
+            this.v4 = v4;
         }
 
         public void drawObj(SpriteBatch spriteBatch)
