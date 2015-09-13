@@ -147,6 +147,18 @@ namespace DesPat
 
             textureObj.changeAngle(angle);
             textureObj.addToLocation(movementDelta);
+
+            if (textureObj.getLocation().X <= textureObj.getTexture().Width / 2)
+                textureObj.changeLocation(textureObj.getTexture().Width / 2 ,textureObj.getLocation().Y);
+            if (textureObj.getLocation().X + textureObj.getTexture().Width / 2 >= Main.screenWidth)
+                textureObj.changeLocation(Main.screenWidth - textureObj.getTexture().Width / 2, textureObj.getLocation().Y);
+
+            if (textureObj.getLocation().Y <= textureObj.getTexture().Height / 2)
+                textureObj.changeLocation(textureObj.getLocation().X, textureObj.getTexture().Height / 2);
+            if (textureObj.getLocation().Y + textureObj.getTexture().Height / 2 >= Main.screenHeight)
+                textureObj.changeLocation(textureObj.getLocation().X, Main.screenHeight - textureObj.getTexture().Height / 2);
+
+
         }
         public void shootSeed(int playerNumber, double seconds, float speed)
         {

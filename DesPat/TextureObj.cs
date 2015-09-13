@@ -130,6 +130,19 @@ namespace DesPat
             hitboxBR.X += x;
             hitboxBR.Y += y;
         }
+        public void changeLocation(float x, float y)
+        {
+            location.X = x;
+            location.Y = y;
+            hitboxTL.X = x - texture.Width / 2;
+            hitboxTL.Y = y - texture.Height / 2;
+            hitboxTR.X = x + texture.Width / 2;
+            hitboxTR.Y = y - texture.Height / 2;
+            hitboxBL.X = x - texture.Width / 2;
+            hitboxBL.Y = y + texture.Height / 2;
+            hitboxBR.X = x + texture.Width / 2;
+            hitboxBR.Y = y + texture.Height / 2;
+        }
         public Vector2 getLocation()
         {
             return location;
@@ -202,5 +215,11 @@ namespace DesPat
         {
             return type;
         }
+        public Texture2D getTexture()
+        {
+            return texture;
+        }
+             
+
     }
 }

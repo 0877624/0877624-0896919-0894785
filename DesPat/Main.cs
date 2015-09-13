@@ -26,6 +26,10 @@ namespace DesPat
         private int playerAmount = 0;
         private static bool forceExit = false;
 
+        //screen Parameters
+        public static int screenWidth;
+        public static int screenHeight;
+
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -48,6 +52,10 @@ namespace DesPat
             Texture2D bg = Content.Load<Texture2D>("Space.jpg");
             imageList.Add(bg);
             addAsActive(new TextureObj(bg, new Vector2(0,0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0, new Vector2(bg.Width / 2, bg.Height / 2), 1.0f, SpriteEffects.None, 1, "Background"));
+
+            //detect screen parameters
+            screenWidth = GraphicsDevice.Viewport.Width;
+            screenHeight = GraphicsDevice.Viewport.Height;
 
             //############################################################################################################################################
             //Load Banana Projectile image.
@@ -80,12 +88,12 @@ namespace DesPat
 
             Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
             imageList.Add(playerImage);
-            createPlayer(imageList.Find(name => name.Name == "Banana.png"), 200, 250, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
+            createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 2 - playerImage.Height / 2, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
 
             System.Diagnostics.Debug.WriteLine("Making a player ");
             Texture2D player2Image = Content.Load<Texture2D>("Tomato.png");
             imageList.Add(player2Image);
-            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), 600, 250, 2.5f, 5f, PlayerIndex.One, new Vector2(752, 16));
+            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 2 - player2Image.Height / 2, 2.5f, 5f, PlayerIndex.One, new Vector2(screenWidth - 48, 16));
         }
 
         private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot, Vector2 healthBarLocation)
@@ -200,7 +208,7 @@ namespace DesPat
             var KBS = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || KBS.IsKeyDown(Keys.Escape))
                 Exit();
-            if(forceExit)
+            if (forceExit)
             {
                 Exit();
             }
