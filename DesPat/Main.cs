@@ -71,15 +71,23 @@ namespace DesPat
             Texture2D projectileBananaImage = Content.Load<Texture2D>("Projectile-banana.png");
             imageList.Add(projectileBananaImage);
             System.Diagnostics.Debug.WriteLine("Banana projectile: " + projectileBananaImage.Name);
-            //Load Tomato Projectile image.
-            Texture2D projectileTomatoImage = Content.Load<Texture2D>("Projectile-tomato.png");
-            imageList.Add(projectileTomatoImage);
-            System.Diagnostics.Debug.WriteLine("Tomato projectile: " + projectileTomatoImage.Name);
+            //Load Strawberry Projectile image.
+            Texture2D projectileStrawberryImage = Content.Load<Texture2D>("Projectile-strawberry.png");
+            imageList.Add(projectileStrawberryImage);
+            System.Diagnostics.Debug.WriteLine("Strawberry projectile: " + projectileStrawberryImage.Name);
+            //Load Pear projectile image.
+            Texture2D projectilePearImage = Content.Load<Texture2D>("Projectile-pear.png");
+            imageList.Add(projectilePearImage);
+            System.Diagnostics.Debug.WriteLine("Pear projectile: " + projectilePearImage.Name);
             //############################################################################################################################################
 
             //  5k         25k 35k   20k 
             // [8*, 8, 16, 32*, 64*, 32*, 32, 64]
+<<<<<<< HEAD
+
+=======
             
+>>>>>>> 8e4c4c9ef603ab1b8aef1500ce610acb7ec3ea9d
             //load the seed image.
             Texture2D seedImage = Content.Load<Texture2D>("Seed.png");
             imageList.Add(seedImage);
@@ -102,9 +110,13 @@ namespace DesPat
             createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
 
             System.Diagnostics.Debug.WriteLine("Making a player ");
-            Texture2D player2Image = Content.Load<Texture2D>("Tomato.png");
+            Texture2D player2Image = Content.Load<Texture2D>("Strawberry.png");
             imageList.Add(player2Image);
+<<<<<<< HEAD
+            createPlayer(imageList.Find(name => name.Name == "Strawberry.png"), screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, PlayerIndex.One, new Vector2(screenWidth - 48, 16));
+=======
             createPlayer(imageList.Find(name => name.Name == "Tomato.png"), screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, PlayerIndex.One, new Vector2(screenWidth - 48, 16));
+>>>>>>> 8e4c4c9ef603ab1b8aef1500ce610acb7ec3ea9d
 
             System.Diagnostics.Debug.WriteLine("Making a player ");
             Texture2D player3Image = Content.Load<Texture2D>("Pear.png");
@@ -193,7 +205,11 @@ namespace DesPat
                                         System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() + " has COLLISION with something: " + collisionCheck.getType());
                                         //here you can handle the collision with a non-player object.
 
+<<<<<<< HEAD
+                                        if (collisionCheck.getType().Equals("Seed") || collisionCheck.getType().Equals("Strawberry slice") || collisionCheck.getType().Equals("Banana slice") || collisionCheck.getType().Equals("Pear slice")) 
+=======
                                         if (collisionCheck.getType().Equals("Seed") || collisionCheck.getType().Equals("Tomato slice") || collisionCheck.getType().Equals("Banana slice"))
+>>>>>>> 8e4c4c9ef603ab1b8aef1500ce610acb7ec3ea9d
                                         {
                                             projectileObjects.Find(findProjectile => findProjectile.getObject() == collisionCheck).setSecondsLeft(0);
                                         }
@@ -234,7 +250,7 @@ namespace DesPat
             }
 
             var KBS = Keyboard.GetState();
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || KBS.IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Three).Buttons.Back == ButtonState.Pressed || KBS.IsKeyDown(Keys.Escape))
                 Exit();
             if (forceExit)
             {

@@ -207,8 +207,18 @@ namespace DesPat
             }
             else if (playerNumber == 2)
             {
+<<<<<<< HEAD
+                projectileImage = Main.imageList.Find(name => name.Name == "Projectile-strawberry.png");
+                projectileType = "Strawberry slice";
+            }
+            else if(playerNumber == 3)
+            {
+                projectileImage = Main.imageList.Find(name => name.Name == "Projectile-pear.png");
+                projectileType = "Pear slice";
+=======
                 projectileImage = Main.imageList.Find(name => name.Name == "Projectile-tomato.png");
                 projectileType = "Tomato slice";
+>>>>>>> 8e4c4c9ef603ab1b8aef1500ce610acb7ec3ea9d
             }
             else
             {
@@ -220,15 +230,40 @@ namespace DesPat
         public void changeHealth(double newHealth)
         {
             health = newHealth;
+<<<<<<< HEAD
+            if (health > 0)
+=======
             Main.removeAsActive(Main.activeObjects.Find(obj => obj.getPlayerNumber() == playerNumber && obj.getType() == "Healthbar"));
             Texture2D healthBar = Main.imageList.Find(obj => obj.Name == "Life-" + (int)((health / maxHealth) * 3) + ".png");
             if(healthBar != null)
+>>>>>>> 8e4c4c9ef603ab1b8aef1500ce610acb7ec3ea9d
             {
-                Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
+                Main.removeAsActive(Main.activeObjects.Find(obj => obj.getPlayerNumber() == playerNumber && obj.getType() == "Healthbar"));
+                Texture2D healthBar = Main.imageList.Find(obj => obj.Name == "Life-" + (int)((health / maxHealth) * 3) + ".png");
+                if (healthBar != null)
+                {
+                    Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
+                }
+                else
+                {
+                    Main.ExitGame();
+                }
             }
             else
             {
-                Main.ExitGame();
+                Main.removeAsActive(Main.activeObjects.Find(obj => obj.getPlayerNumber() == playerNumber && obj.getType() == "Healthbar"));
+                Texture2D healthBar = Main.imageList.Find(obj => obj.Name == "Life-" + (int)((health / maxHealth) * 3) + ".png");
+                if (healthBar != null)
+                {
+                    Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
+                }
+                else
+                {
+                    Main.ExitGame();
+                }
+
+                Main.playerList.Remove(this);
+                Main.removeAsActive(textureObj);
             }
             
         }
