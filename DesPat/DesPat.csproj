@@ -38,7 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AutoMoveSeed.cs" />
+    <Compile Include="AutoMoveProjectile.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="TextureObj.cs" />
     <Compile Include="Main.cs" />
@@ -66,6 +66,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Life-3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Pear.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Projectile-banana.png">

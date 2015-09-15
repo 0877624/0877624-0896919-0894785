@@ -26,7 +26,8 @@ namespace DesPat
 
         private long lastShot = 0;
 
-        private int health = 3;
+        private double maxHealth = 3;
+        private double health = 3;
 
         private Vector2 healthBarLocation;
 
@@ -43,8 +44,8 @@ namespace DesPat
             this.shoot = shoot;
             this.healthBarLocation = healthBarLocation;
             controller = false;
-
-            String objName = "Life-" + health + ".png";
+            
+            String objName = "Life-" + (int)((health / maxHealth) * 3) + ".png";
             Texture2D healthBar = Main.imageList.Find(obj => obj.Name == objName);
             Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
         }
@@ -56,9 +57,37 @@ namespace DesPat
             this.rotateSpeed = rotateSpeed;
             this.playerIndex = playerIndex;
             this.healthBarLocation = healthBarLocation;
-            controller = true;
 
-            String objName = "Life-" + health + ".png";
+            //Temporary code till a main screen is added. 
+            //This way we can still control players and test if we dont have a controller at hand.
+            if (GamePad.GetState(playerIndex).IsConnected)
+            {
+                controller = true;
+            }
+            else
+            {
+                if(playerNumber == 2)
+                {
+                    controller = false;
+                    this.up = Keys.Up;
+                    this.left = Keys.Left;
+                    this.down = Keys.Down;
+                    this.right = Keys.Right;
+                    this.shoot = Keys.RightShift;
+                }
+                else if(playerNumber == 3)
+                {
+                    controller = false;
+                    this.up = Keys.I;
+                    this.left = Keys.J;
+                    this.down = Keys.K;
+                    this.right = Keys.L;
+                    this.shoot = Keys.RightAlt;
+                }
+            }
+            /////////////////////////////////////////////////////////////////////////////////////
+
+            String objName = "Life-" + (int)((health / maxHealth) * 3) + ".png";
             Texture2D healthBar = Main.imageList.Find(obj => obj.Name == objName);
             Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
         }
@@ -163,8 +192,8 @@ namespace DesPat
         public void shootSeed(int playerNumber, double seconds, float speed)
         {
             TextureObj projectileObj = createProjectileObject(playerNumber);
-            Main.activeObjects.Add(projectileObj);
-            Main.automaticMovement.Add(new AutoMoveSeed(playerNumber, projectileObj, seconds, speed, textureObj.getAngle()));
+            Main.addAsActive(projectileObj);
+            Main.addAsAutomatic(new AutoMoveProjectile(playerNumber, projectileObj, seconds, speed, textureObj.getAngle()));
         }
         public TextureObj createProjectileObject(int playerNumber)
         {
@@ -179,7 +208,7 @@ namespace DesPat
             else if (playerNumber == 2)
             {
                 projectileImage = Main.imageList.Find(name => name.Name == "Projectile-tomato.png");
-                projectileType = "Tomato Slice";
+                projectileType = "Tomato slice";
             }
             else
             {
@@ -188,11 +217,11 @@ namespace DesPat
             }
             return new TextureObj(projectileImage, textureObj.getLocation(), new Rectangle(0, 0, projectileImage.Width, projectileImage.Height), Color.White, 0, new Vector2(projectileImage.Width / 2, projectileImage.Height / 2), 1.0f, SpriteEffects.None, 1, projectileType);
         }
-        public void changeHealth(int newHealth)
+        public void changeHealth(double newHealth)
         {
             health = newHealth;
             Main.removeAsActive(Main.activeObjects.Find(obj => obj.getPlayerNumber() == playerNumber && obj.getType() == "Healthbar"));
-            Texture2D healthBar = Main.imageList.Find(obj => obj.Name == "Life-" + health + ".png");
+            Texture2D healthBar = Main.imageList.Find(obj => obj.Name == "Life-" + (int)((health / maxHealth) * 3) + ".png");
             if(healthBar != null)
             {
                 Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
@@ -203,7 +232,7 @@ namespace DesPat
             }
             
         }
-        public int getHealth()
+        public double getHealth()
         {
             return health;
         }

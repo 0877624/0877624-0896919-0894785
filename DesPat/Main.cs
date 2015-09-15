@@ -15,13 +15,19 @@ namespace DesPat
         SpriteBatch spriteBatch;
 
         public static List<TextureObj> activeObjects = new List<TextureObj>();
-        public static List<Texture2D> imageList = new List<Texture2D>();
-        public static List<AutoMoveSeed> automaticMovement = new List<AutoMoveSeed>();
-        public static List<Player> playerList = new List<Player>();
         private static List<TextureObj> toActivateObjects = new List<TextureObj>();
         private static List<TextureObj> toDeactivateObjects = new List<TextureObj>();
-        private static bool changeInActives = false;
 
+        public static List<AutoMoveProjectile> projectileObjects = new List<AutoMoveProjectile>();
+        private static List<AutoMoveProjectile> toAutomateProjectiles = new List<AutoMoveProjectile>();
+        private static List<AutoMoveProjectile> toDeautomateProjectiles = new List<AutoMoveProjectile>();
+
+        public static List<Texture2D> imageList = new List<Texture2D>();
+        public static List<Player> playerList = new List<Player>();
+
+        private static bool changeInLists = false;
+        private static bool changeInActives = false;
+        private static bool changeInProjectiles = false;
 
         private int playerAmount = 0;
         private static bool forceExit = false;
@@ -33,12 +39,15 @@ namespace DesPat
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
+
+            //NOTE: if fullscreen is activated, if an error occurs exiting the game will be very hard as the fullscreen will
+            //cover taskmanager and you wont exit. Instead try pressing enter if this happens that fixed it for me. -Juno
+            //graphics.ToggleFullScreen();
             Content.RootDirectory = "Content";
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
 
             base.Initialize();
         }
@@ -68,6 +77,9 @@ namespace DesPat
             System.Diagnostics.Debug.WriteLine("Tomato projectile: " + projectileTomatoImage.Name);
             //############################################################################################################################################
 
+            //  5k         25k 35k   20k 
+            // [8*, 8, 16, 32*, 64*, 32*, 32, 64]
+            
             //load the seed image.
             Texture2D seedImage = Content.Load<Texture2D>("Seed.png");
             imageList.Add(seedImage);
@@ -85,15 +97,20 @@ namespace DesPat
 
             //Load player images and create player Objects.
             System.Diagnostics.Debug.WriteLine("Making a player ");
-
             Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
             imageList.Add(playerImage);
-            createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 2 - playerImage.Height / 2, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
+            createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
 
             System.Diagnostics.Debug.WriteLine("Making a player ");
             Texture2D player2Image = Content.Load<Texture2D>("Tomato.png");
             imageList.Add(player2Image);
-            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 2 - player2Image.Height / 2, 2.5f, 5f, PlayerIndex.One, new Vector2(screenWidth - 48, 16));
+            createPlayer(imageList.Find(name => name.Name == "Tomato.png"), screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, PlayerIndex.One, new Vector2(screenWidth - 48, 16));
+
+            System.Diagnostics.Debug.WriteLine("Making a player ");
+            Texture2D player3Image = Content.Load<Texture2D>("Pear.png");
+            imageList.Add(player3Image);
+            createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 2 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, PlayerIndex.Two, new Vector2(48, screenHeight - 16));
+
         }
 
         private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot, Vector2 healthBarLocation)
@@ -123,40 +140,49 @@ namespace DesPat
         }
         protected override void Update(GameTime gameTime)
         {
-            if (changeInActives)
+            //check if either the Actives list or the Projectile list has been changed.
+            if (changeInLists)
             {
-                addActives();
+                if (changeInActives)
+                {
+                    changeActives();
+                }
+                if(changeInProjectiles)
+                {
+                    changeProjectiles();
+                }
             }
             //System.Diagnostics.Debug.WriteLine("A Frame!");
-            if (automaticMovement.Count != 0)
+            if (projectileObjects.Count != 0)
             {
-                for(int i = 0; i < automaticMovement.Count; i++)
+                for(int i = 0; i < projectileObjects.Count; i++)
                 {
-                    AutoMoveSeed obj = automaticMovement[i];
+                    AutoMoveProjectile obj = projectileObjects[i];
                     foreach (TextureObj collisionCheck in activeObjects)
                     {
                         //System.Diagnostics.Debug.WriteLine("obj playerNumber: " + obj.getPlayerNumber() + ", checkNumber: " + collisionCheck.getPlayerNumber());
                         bool collidable = true;
 
-                        //in this if statement, add any Type which shouldnt collide with seeds. Like background and GUI.
+                        //in this if statement, add any Type which shouldnt collide with projectiles. Like background and GUI.
                         if(collisionCheck.getType().Equals("Background") || collisionCheck.getType().Equals("Healthbar"))
                         {
                             collidable = false;
                         }
+                        //this if checks if the TextureObj is not the player that shot the projectile.
                         if (obj.getPlayerNumber() != collisionCheck.getPlayerNumber() && collidable == true)
                         {
-                            //System.Diagnostics.Debug.WriteLine("Seed from player not colliding with own player");
+                            //this if checks if the TextureObj is not the same as the Projectile.
                             if (obj.getObject() != collisionCheck)
                             {
-                                //System.Diagnostics.Debug.WriteLine("Seed not colliding with itself");
-
+                                //this if checks if the Projectile hit something.
                                 if (obj.getObject().checkCollision(collisionCheck))
                                 {
                                     //if the playerNumber of the texture object is not 0, a player has been hit.
                                     if (collisionCheck.getPlayerNumber() != 0)
                                     {
-                                        System.Diagnostics.Debug.WriteLine("Seed from player: " + obj.getPlayerNumber() + " has COLLISION with Player: " + collisionCheck.getPlayerNumber());
-                                        //Here you can handle the collision with a player, lowering the HP of the hit target.
+                                        System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() + " has COLLISION with Player: " + collisionCheck.getPlayerNumber());
+                                        //Here you can handle the collision with a player, like lowering the HP of the hit target.
+
                                         Player hitPlayer = playerList.Find(player => player.getPlayerNumber() == collisionCheck.getPlayerNumber());
                                         hitPlayer.changeHealth(hitPlayer.getHealth() - 1);
 
@@ -164,16 +190,17 @@ namespace DesPat
                                     //else the hit object is not a player.
                                     else
                                     {
-                                        System.Diagnostics.Debug.WriteLine("Seed from player: " + obj.getPlayerNumber() + " has COLLISION with something: " + collisionCheck.getType());
+                                        System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() + " has COLLISION with something: " + collisionCheck.getType());
                                         //here you can handle the collision with a non-player object.
-                                        if(collisionCheck.getType().Equals("Seed"))
+
+                                        if (collisionCheck.getType().Equals("Seed") || collisionCheck.getType().Equals("Tomato slice") || collisionCheck.getType().Equals("Banana slice"))
                                         {
-                                            automaticMovement.Find(findSeed => findSeed.getObject() == collisionCheck).setSecondsLeft(0);
+                                            projectileObjects.Find(findProjectile => findProjectile.getObject() == collisionCheck).setSecondsLeft(0);
                                         }
 
                                     }
 
-                                    //Delete seed that hit something.
+                                    //Delete the projectile that hit something.
                                     obj.setSecondsLeft(0);
                                 }
                             }
@@ -194,17 +221,18 @@ namespace DesPat
                     }
                     else
                     {
-                        automaticMovement.Remove(obj);
+                        removeAsProjectile(obj);
                         removeAsActive(obj.getObject());
                     }
                 }
             }
 
+            //check if a player has pressed any keys.
             foreach(Player player in playerList)
             {
-                //System.Diagnostics.Debug.WriteLine("A Player!");
                 player.checkKeys();
             }
+
             var KBS = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || KBS.IsKeyDown(Keys.Escape))
                 Exit();
@@ -213,21 +241,15 @@ namespace DesPat
                 Exit();
             }
 
-
-            //System.Diagnostics.Debug.WriteLine("Angle: " + angle);
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
+            //draw every Active object.
             foreach(TextureObj activeObject in activeObjects)
             {
                 activeObject.drawObj(spriteBatch);
@@ -235,7 +257,39 @@ namespace DesPat
             spriteBatch.End();
             base.Draw(gameTime);
         }
-        private void addActives()
+
+
+        //the following 6 methods are to make sure a list will not be altered while a loop is checking them.
+        //Instead if changes are made they will be done at the start of the update() method.
+        private void changeProjectiles()
+        {
+            foreach (AutoMoveProjectile waitingProjectile in toAutomateProjectiles)
+            {
+                projectileObjects.Add(waitingProjectile);
+            }
+            toAutomateProjectiles.Clear();
+            foreach (AutoMoveProjectile waitingProjectile in toDeautomateProjectiles)
+            {
+                projectileObjects.Remove(waitingProjectile);
+            }
+            toDeautomateProjectiles.Clear();
+            changeInProjectiles = false;
+            changeInLists = false;
+        }
+        public static void addAsAutomatic(AutoMoveProjectile obj)
+        {
+            toAutomateProjectiles.Add(obj);
+            changeInProjectiles = true;
+            changeInLists = true;
+        }
+        public static void removeAsProjectile(AutoMoveProjectile obj)
+        {
+            toDeautomateProjectiles.Add(obj);
+            changeInProjectiles = true;
+            changeInLists = true;
+        }
+
+        private void changeActives()
         {
             foreach (TextureObj waitingObj in toActivateObjects)
             {
@@ -248,17 +302,21 @@ namespace DesPat
             }
             toDeactivateObjects.Clear();
             changeInActives = false;
+            changeInLists = false;
         }
         public static void addAsActive(TextureObj obj)
         {
             toActivateObjects.Add(obj);
             changeInActives = true;
+            changeInLists = true;
         }
         public static void removeAsActive(TextureObj obj)
         {
             toDeactivateObjects.Add(obj);
             changeInActives = true;
+            changeInLists = true;
         }
+
         public static void ExitGame()
         {
             forceExit = true;

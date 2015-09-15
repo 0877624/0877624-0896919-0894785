@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DesPat
 {
-    public class AutoMoveSeed
+    public class AutoMoveProjectile
     {
         int playerNumber;
         TextureObj obj;
@@ -15,7 +15,7 @@ namespace DesPat
         public float toAddY;
         long startTime;
 
-        public AutoMoveSeed(int playerNumber, TextureObj obj, double seconds, float speed, float angle)
+        public AutoMoveProjectile(int playerNumber, TextureObj obj, double seconds, float speed, float angle)
         {
             this.playerNumber = playerNumber;
             this.obj = obj;

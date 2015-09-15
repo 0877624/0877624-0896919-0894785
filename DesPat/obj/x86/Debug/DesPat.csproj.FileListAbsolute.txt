@@ -154,3 +154,10 @@ D:\Files\Windows files\Documents\GitHub\0877624-0896919-0894785\DesPat\bin\Windo
 D:\Files\Windows files\Documents\GitHub\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.RawInput.xml
 D:\Files\Windows files\Documents\GitHub\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.xml
 D:\Files\Windows files\Documents\GitHub\0877624-0896919-0894785\DesPat\obj\x86\Debug\DesPat.csprojResolveAssemblyReference.cache
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Life-0.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Life-1.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Life-2.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Life-3.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Projectile-banana.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Projectile-tomato.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Pear.png
