@@ -33,6 +33,10 @@ namespace DesPat
         private int playerAmount = 0;
         private static bool forceExit = false;
 
+        //case 2
+        public static int gamePC = 1;
+        public static int iLine2;
+
         //screen Parameters
         public static int screenWidth;
         public static int screenHeight;
@@ -47,6 +51,7 @@ namespace DesPat
 
             //NOTE: if fullscreen is activated, if an error occurs exiting the game will be very hard as the fullscreen will
             //cover taskmanager and you wont exit. Instead try pressing enter if this happens that fixed it for me. -Juno
+            //Kevin: Try hitting Shift-F5 first in visual  studio, as this stops the current process.
             //NOTE2: NOT RECOMMENDED AS IT WILL NOT WORK WITH THE MAIN SCREEN.
             //graphics.ToggleFullScreen();
 
@@ -311,6 +316,10 @@ namespace DesPat
                     break;
 
                 case 2:
+                    switch(gamePC)
+                    {
+                        case 1:
+
                     break;
 
                 default:
