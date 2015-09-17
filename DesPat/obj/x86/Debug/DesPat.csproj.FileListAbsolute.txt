@@ -89,7 +89,6 @@ C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\obj\x86\Debug\De
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Banana.png
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Seed.png
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Space.jpg
-C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Tomato.png
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\DesPat.exe
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\DesPat.pdb
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\MonoGame.Framework.dll
@@ -159,5 +158,8 @@ C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debu
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Life-2.png
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Life-3.png
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Projectile-banana.png
-C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Projectile-tomato.png
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Pear.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\MainScreen.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Projectile-strawberry.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Strawberry.png
+C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Projectile-pear.png
