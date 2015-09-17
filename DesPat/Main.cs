@@ -34,8 +34,9 @@ namespace DesPat
         private static bool forceExit = false;
 
         //case 2
-        public static int gamePC = 1;
-        public static int iLine2;
+        public int gamePC = 0, iLine1, iLine5, rndLine1, rndLine5;
+        public Random randomGen = new Random();
+        public float timeToWaitLine4, timeToWaitLine3;
 
         //screen Parameters
         public static int screenWidth;
@@ -316,9 +317,68 @@ namespace DesPat
                     break;
 
                 case 2:
-                    switch(gamePC)
+                    switch (gamePC)
                     {
+                        case 0:
+                            if(true)
+                            {
+                                gamePC = 1;
+                                iLine1 = 1;
+                                rndLine1 = randomGen.Next(20, 60);
+                            } 
+                            else
+                            {
+                                gamePC = 9;
+                            }
+                            break;
                         case 1:
+                            if(iLine1 <= rndLine1)
+                            {
+                                gamePC = 2;
+                            }
+                            else
+                            {
+                                gamePC = 4;
+                                timeToWaitLine4 = (float)(randomGen.NextDouble() * 2.0 + 5.0);
+                            }
+                            break;
+                        case 2:
+                            newMeatballPositions.Add(new Vector2((float)(randomGen.NextDouble() * 500.0 + 51.0), 51.0f));
+                            gamePC = 3;
+                            timeToWaitLine3 = (float)(randomGen.NextDouble() * 0.2 + 0.1);
+                            break;
+                        case 3:
+                            timeToWaitLine3 -= deltaTime;
+                            if(timeToWaitLine3 > 0.0f)
+                            {
+                                gamePC = 3;
+                            }
+                            else
+                            {
+                                gamePC = 1;
+                                iLine1++;
+                            }
+                            break;
+                        case 4:
+                            timeToWaitLine4 -= deltaTime;
+                            if(timeToWaitLine4 > 0.0f)
+                            {
+                                gamePC = 4;
+                            }
+                            else
+                            {
+                                gamePC = 5;
+                                iLine5 = 1;
+                                rndLine5 = randomGen.Next(10, 20);
+                            }
+                            break;
+                        case 5:
+                            Main.ExitGame();
+                            break;
+                        default:
+                            System.Diagnostics.Debug.WriteLine("Error!");
+                            break;
+                    }
 
                     break;
 
