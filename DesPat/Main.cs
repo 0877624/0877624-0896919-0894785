@@ -91,7 +91,7 @@ namespace DesPat
                     //Load BG
                     Texture2D bg = Content.Load<Texture2D>("Space.jpg");
                     imageList.Add(bg);
-                    addAsActive(new TextureObj(bg, new Vector2(0, 0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0, new Vector2(bg.Width / 2, bg.Height / 2), 1.5f, SpriteEffects.None, 1, "Background"));
+                    addAsActive(new TextureObj(bg, new Vector2(0, 0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0, new Vector2(0,0), 1.0f, SpriteEffects.None, 1, "Background"));
 
                     //############################################################################################################################################
                     //Load Banana Projectile image.
@@ -141,6 +141,10 @@ namespace DesPat
                     createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 2 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, PlayerIndex.Two, new Vector2(48, screenHeight - 16));
                     break;
                 case 2:
+                    //Load BG
+                    Texture2D bg2 = Content.Load<Texture2D>("Space.jpg");
+                    imageList.Add(bg2);
+                    addAsActive(new TextureObj(bg2, new Vector2(0, 0), new Rectangle(0, 0, bg2.Width, bg2.Height), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "Background"));
 
                     break;
 
