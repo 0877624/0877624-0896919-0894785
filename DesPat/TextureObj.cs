@@ -47,20 +47,21 @@ namespace DesPat
             this.location = location;
             this.sourceRectangle = sourceRectangle;
             this.color = color;
-            this.angle = angle;
+            this.angle = correctAngle(angle);
             this.origin = origin;
             this.scale = scale;
             this.effects = effects;
             this.layerDepth = layerDepth;
             this.type = type;
-            hitboxTL = new Vector2(location.X - texture.Width / 2, location.Y - texture.Height / 2);
-            hitboxTR = new Vector2(location.X + texture.Width / 2, location.Y - texture.Height / 2);
-            hitboxBL = new Vector2(location.X - texture.Width / 2, location.Y + texture.Height / 2);
-            hitboxBR = new Vector2(location.X + texture.Width / 2, location.Y + texture.Height / 2);
+            hitboxTL = new Vector2(location.X - (texture.Width / 2) * scale, location.Y - (texture.Height / 2) * scale);
+            hitboxTR = new Vector2(location.X + (texture.Width / 2) * scale, location.Y - (texture.Height / 2) * scale);
+            hitboxBL = new Vector2(location.X - (texture.Width / 2) * scale, location.Y + (texture.Height / 2) * scale);
+            hitboxBR = new Vector2(location.X + (texture.Width / 2) * scale, location.Y + (texture.Height / 2) * scale);
 
             //System.Diagnostics.Debug.WriteLine("X: " + hitboxTL.X);
             //System.Diagnostics.Debug.WriteLine("Y: " + hitboxTL.Y);
         }
+
         public TextureObj(int playerNumber, Texture2D texture, Vector2 location, Rectangle sourceRectangle, Color color, float angle, Vector2 origin, float scale, SpriteEffects effects, float layerDepth, String type)
         {
             this.playerNumber = playerNumber;
@@ -68,16 +69,16 @@ namespace DesPat
             this.location = location;
             this.sourceRectangle = sourceRectangle;
             this.color = color;
-            this.angle = angle;
+            this.angle = correctAngle(angle);
             this.origin = origin;
             this.scale = scale;
             this.effects = effects;
             this.layerDepth = layerDepth;
             this.type = type;
-            hitboxTL = new Vector2(location.X - texture.Width / 2, location.Y - texture.Height / 2);
-            hitboxTR = new Vector2(location.X + texture.Width / 2, location.Y - texture.Height / 2);
-            hitboxBL = new Vector2(location.X - texture.Width / 2, location.Y + texture.Height / 2);
-            hitboxBR = new Vector2(location.X + texture.Width / 2, location.Y + texture.Height / 2);
+            hitboxTL = new Vector2(location.X - (texture.Width / 2) * scale, location.Y - (texture.Height / 2) * scale);
+            hitboxTR = new Vector2(location.X + (texture.Width / 2) * scale, location.Y - (texture.Height / 2) * scale);
+            hitboxBL = new Vector2(location.X - (texture.Width / 2) * scale, location.Y + (texture.Height / 2) * scale);
+            hitboxBR = new Vector2(location.X + (texture.Width / 2) * scale, location.Y + (texture.Height / 2) * scale);
 
             //System.Diagnostics.Debug.WriteLine("X: " + hitboxTL.X);
             //System.Diagnostics.Debug.WriteLine("Y: " + hitboxTL.Y);
@@ -102,6 +103,26 @@ namespace DesPat
             spriteBatch.Draw(texture, location, sourceRectangle, Color.White, angle * angleRad, origin, scale, effects, layerDepth);
         }
 
+        private float correctAngle(float angle)
+        {
+            float newAngle;
+            if(angle < 0)
+            {
+                int angleTimes = (int)(angle / 360);
+                newAngle = 360 - Math.Abs((angle + 360 * angleTimes));
+            }
+            else if(angle > 360)
+            {
+                int angleTimes = (int)(angle / 360);
+                newAngle = angle - 360 * angleTimes;
+            }
+            else
+            {
+                return angle;
+            }
+
+            return newAngle;
+        }
 
         public void addToLocation(Vector2 moveAmount)
         {
@@ -134,14 +155,14 @@ namespace DesPat
         {
             location.X = x;
             location.Y = y;
-            hitboxTL.X = x - texture.Width / 2;
-            hitboxTL.Y = y - texture.Height / 2;
-            hitboxTR.X = x + texture.Width / 2;
-            hitboxTR.Y = y - texture.Height / 2;
-            hitboxBL.X = x - texture.Width / 2;
-            hitboxBL.Y = y + texture.Height / 2;
-            hitboxBR.X = x + texture.Width / 2;
-            hitboxBR.Y = y + texture.Height / 2;
+            hitboxTL.X = x - (texture.Width / 2) * scale;
+            hitboxTL.Y = y - (texture.Height / 2) * scale;
+            hitboxTR.X = x + (texture.Width / 2) * scale;
+            hitboxTR.Y = y - (texture.Height / 2) * scale;
+            hitboxBL.X = x - (texture.Width / 2) * scale;
+            hitboxBL.Y = y + (texture.Height / 2) * scale;
+            hitboxBR.X = x + (texture.Width / 2) * scale;
+            hitboxBR.Y = y + (texture.Height / 2) * scale;
         }
         public Vector2 getLocation()
         {
@@ -150,26 +171,11 @@ namespace DesPat
         public void addToAngle(float newAngle)
         {
             angle += newAngle;
-            if (angle > 359)
-            {
-                angle = 0;
-            }
-            else if (angle < 0)
-            {
-                angle = 359;
-            }
+            angle = correctAngle(angle);
         }
         public void changeAngle(float newAngle)
         {
-            angle = newAngle;
-            if (angle > 359)
-            {
-                angle = 0;
-            }
-            else if (angle < 0)
-            {
-                angle = 359;
-            }
+            angle = correctAngle(newAngle);
         }
         public float getAngle()
         {
@@ -218,6 +224,10 @@ namespace DesPat
         public Texture2D getTexture()
         {
             return texture;
+        }
+        public float getScale()
+        {
+            return scale;
         }
              
 

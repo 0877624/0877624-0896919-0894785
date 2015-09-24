@@ -18,10 +18,13 @@ namespace DesPat
         private static List<TextureObj> toActivateObjects = new List<TextureObj>();
         private static List<TextureObj> toDeactivateObjects = new List<TextureObj>();
 
-
         public static List<AutoMoveProjectile> projectileObjects = new List<AutoMoveProjectile>();
         private static List<AutoMoveProjectile> toAutomateProjectiles = new List<AutoMoveProjectile>();
         private static List<AutoMoveProjectile> toDeautomateProjectiles = new List<AutoMoveProjectile>();
+
+        private List<AutoMoveMeatball> meatballs = new List<AutoMoveMeatball>();
+        private static List<AutoMoveMeatball> toDeautomateMeatballs = new List<AutoMoveMeatball>();
+        private static List<AutoMoveMeatball> toAutomateMeatballs = new List<AutoMoveMeatball>();
 
         public static List<Texture2D> imageList = new List<Texture2D>();
         public static List<Player> playerList = new List<Player>();
@@ -29,10 +32,16 @@ namespace DesPat
         private static bool changeInLists = false;
         private static bool changeInActives = false;
         private static bool changeInProjectiles = false;
+        private static bool changeInMeatballs;
         private bool changeInCurrentScreen = false;
 
         private int playerAmount = 0;
         private static bool forceExit = false;
+
+        //case 2
+        public int gamePC = 0, iLine1, iLine5, rndLine1, rndLine5;
+        public Random randomGen = new Random();
+        public float timeToWaitLine4, timeToWaitLine3;
 
         //screen Parameters
         public static int screenWidth;
@@ -53,6 +62,7 @@ namespace DesPat
 
             //NOTE: if fullscreen is activated, if an error occurs exiting the game will be very hard as the fullscreen will
             //cover taskmanager and you wont exit. Instead try pressing enter if this happens that fixed it for me. -Juno
+            //Kevin: Try hitting Shift-F5 first in visual  studio, as this stops the current process.
             //NOTE2: NOT RECOMMENDED AS IT WILL NOT WORK WITH THE MAIN SCREEN.
             //graphics.ToggleFullScreen();
 
@@ -74,93 +84,122 @@ namespace DesPat
             switch (currentScreen)
             {
                 case 0:
-                    IsMouseVisible = true;
+                    {
+                        IsMouseVisible = true;
 
-                    //detect screen parameters
-                    graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-                    graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-                    graphics.IsFullScreen = true;
-                    graphics.ApplyChanges();
+                        //detect screen parameters
+                        graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+                        graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+                        graphics.IsFullScreen = false;
+                        graphics.ApplyChanges();
 
-                    screenWidth = GraphicsDevice.Viewport.Width;
-                    screenHeight = GraphicsDevice.Viewport.Height;
+                        screenWidth = GraphicsDevice.Viewport.Width;
+                        screenHeight = GraphicsDevice.Viewport.Height;
 
 
-                    Texture2D mainScreen = Content.Load<Texture2D>("MainScreen.png");
-                    imageList.Add(mainScreen);
-                    addAsActive(new TextureObj(mainScreen, new Vector2(0, 0), new Rectangle(0, 0, mainScreen.Width, mainScreen.Height), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "MainScreen"));
-                    break;
+                        Texture2D mainScreen = Content.Load<Texture2D>("MainScreen.png");
+                        imageList.Add(mainScreen);
+                        addAsActive(new TextureObj(mainScreen, new Vector2(0, 0), new Rectangle(0, 0, mainScreen.Width, mainScreen.Height), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "MainScreen"));
+                        break;
+                    }
 
                 case 1:
-                    IsMouseVisible = false;
+                    {
+                        IsMouseVisible = false;
 
-                    //Load BG
-                    Texture2D bg = Content.Load<Texture2D>("Space.jpg");
-                    imageList.Add(bg);
-                    addAsActive(new TextureObj(bg, new Vector2(0, 0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0, new Vector2(0,0), 1.0f, SpriteEffects.None, 1, "Background"));
+                        //Load BG
+                        Texture2D bg = Content.Load<Texture2D>("Space.jpg");
+                        imageList.Add(bg);
+                        addAsActive(new TextureObj(bg, new Vector2(0, 0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "Background"));
 
-                    //############################################################################################################################################
-                    //Load Banana Projectile image.
-                    Texture2D projectileBananaImage = Content.Load<Texture2D>("Projectile-banana.png");
-                    imageList.Add(projectileBananaImage);
-                    System.Diagnostics.Debug.WriteLine("Banana projectile: " + projectileBananaImage.Name);
-                    //Load Strawberry Projectile image.
-                    Texture2D projectileStrawberryImage = Content.Load<Texture2D>("Projectile-strawberry.png");
-                    imageList.Add(projectileStrawberryImage);
-                    System.Diagnostics.Debug.WriteLine("Strawberry projectile: " + projectileStrawberryImage.Name);
-                    //Load Pear projectile image.
-                    Texture2D projectilePearImage = Content.Load<Texture2D>("Projectile-pear.png");
-                    imageList.Add(projectilePearImage);
-                    System.Diagnostics.Debug.WriteLine("Pear projectile: " + projectilePearImage.Name);
-                    //############################################################################################################################################
+                        //############################################################################################################################################
+                        //Load Banana Projectile image.
+                        Texture2D projectileBananaImage = Content.Load<Texture2D>("Projectile-banana.png");
+                        imageList.Add(projectileBananaImage);
+                        System.Diagnostics.Debug.WriteLine("Banana projectile: " + projectileBananaImage.Name);
+                        //Load Strawberry Projectile image.
+                        Texture2D projectileStrawberryImage = Content.Load<Texture2D>("Projectile-strawberry.png");
+                        imageList.Add(projectileStrawberryImage);
+                        System.Diagnostics.Debug.WriteLine("Strawberry projectile: " + projectileStrawberryImage.Name);
+                        //Load Pear projectile image.
+                        Texture2D projectilePearImage = Content.Load<Texture2D>("Projectile-pear.png");
+                        imageList.Add(projectilePearImage);
+                        System.Diagnostics.Debug.WriteLine("Pear projectile: " + projectilePearImage.Name);
+                        //############################################################################################################################################
 
-                    //load the seed image.
-                    Texture2D seedImage = Content.Load<Texture2D>("Seed.png");
-                    imageList.Add(seedImage);
-                    System.Diagnostics.Debug.WriteLine("SeedName: " + seedImage.Name);
+                        //load the seed image.
+                        Texture2D seedImage = Content.Load<Texture2D>("Seed.png");
+                        imageList.Add(seedImage);
+                        System.Diagnostics.Debug.WriteLine("SeedName: " + seedImage.Name);
 
-                    //Load health images.
-                    Texture2D health3Image = Content.Load<Texture2D>("Life-3.png");
-                    imageList.Add(health3Image);
-                    Texture2D health2Image = Content.Load<Texture2D>("Life-2.png");
-                    imageList.Add(health2Image);
-                    Texture2D health1Image = Content.Load<Texture2D>("Life-1.png");
-                    imageList.Add(health1Image);
-                    Texture2D health0Image = Content.Load<Texture2D>("Life-0.png");
-                    imageList.Add(health0Image);
+                        //Load health images.
+                        Texture2D health3Image = Content.Load<Texture2D>("Life-3.png");
+                        imageList.Add(health3Image);
+                        Texture2D health2Image = Content.Load<Texture2D>("Life-2.png");
+                        imageList.Add(health2Image);
+                        Texture2D health1Image = Content.Load<Texture2D>("Life-1.png");
+                        imageList.Add(health1Image);
+                        Texture2D health0Image = Content.Load<Texture2D>("Life-0.png");
+                        imageList.Add(health0Image);
 
-                    //Load player images and create player Objects.
-                    System.Diagnostics.Debug.WriteLine("Making a player ");
-                    Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
-                    imageList.Add(playerImage);
-                    createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
+                        //Load player images and create player Objects.
+                        System.Diagnostics.Debug.WriteLine("Making a player ");
+                        Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
+                        imageList.Add(playerImage);
+                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
 
-                    System.Diagnostics.Debug.WriteLine("Making a player ");
-                    Texture2D player2Image = Content.Load<Texture2D>("Strawberry.png");
-                    imageList.Add(player2Image);
+                        System.Diagnostics.Debug.WriteLine("Making a player ");
+                        Texture2D player2Image = Content.Load<Texture2D>("Strawberry.png");
+                        imageList.Add(player2Image);
 
-                    createPlayer(imageList.Find(name => name.Name == "Strawberry.png"), screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, PlayerIndex.One, new Vector2(screenWidth - 48, 16));
+                        createPlayer(imageList.Find(name => name.Name == "Strawberry.png"), screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, PlayerIndex.One, new Vector2(screenWidth - 48, 16));
 
-                    System.Diagnostics.Debug.WriteLine("Making a player ");
-                    Texture2D player3Image = Content.Load<Texture2D>("Pear.png");
-                    imageList.Add(player3Image);
-                    createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 2 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, PlayerIndex.Two, new Vector2(48, screenHeight - 16));
-                    break;
+                        System.Diagnostics.Debug.WriteLine("Making a player ");
+                        Texture2D player3Image = Content.Load<Texture2D>("Pear.png");
+                        imageList.Add(player3Image);
+                        createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 2 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, PlayerIndex.Two, new Vector2(48, screenHeight - 16));
+                        break;
+                    }
+
                 case 2:
-                    //Load BG
-                    Texture2D bg2 = Content.Load<Texture2D>("Space.jpg");
-                    imageList.Add(bg2);
-                    addAsActive(new TextureObj(bg2, new Vector2(0, 0), new Rectangle(0, 0, bg2.Width, bg2.Height), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "Background"));
+                    {
+                        //Load BG
+                        Texture2D bg2 = Content.Load<Texture2D>("Space.jpg");
+                        imageList.Add(bg2);
+                        addAsActive(new TextureObj(bg2, new Vector2(0, 0), new Rectangle(0, 0, bg2.Width, bg2.Height), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "Background"));
 
-                    Texture2D meatballImage = Content.Load<Texture2D>("Meatball.png");
-                    imageList.Add(meatballImage);
+                        //Load meatball
+                        Texture2D meatballImage = Content.Load<Texture2D>("Meatball.png");
+                        imageList.Add(meatballImage);
 
+                        //Load Banana Projectile image.
+                        Texture2D projectileBananaImage = Content.Load<Texture2D>("Projectile-banana.png");
+                        imageList.Add(projectileBananaImage);
+                        System.Diagnostics.Debug.WriteLine("Banana projectile: " + projectileBananaImage.Name);
 
+                        //Load health images.
+                        Texture2D health3Image = Content.Load<Texture2D>("Life-3.png");
+                        imageList.Add(health3Image);
+                        Texture2D health2Image = Content.Load<Texture2D>("Life-2.png");
+                        imageList.Add(health2Image);
+                        Texture2D health1Image = Content.Load<Texture2D>("Life-1.png");
+                        imageList.Add(health1Image);
+                        Texture2D health0Image = Content.Load<Texture2D>("Life-0.png");
+                        imageList.Add(health0Image);
 
-                    break;
+                        //Load player images and create player Objects.
+                        System.Diagnostics.Debug.WriteLine("Making a player ");
+                        Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
+                        imageList.Add(playerImage);
+                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
+
+                        break;
+                    }
 
                 default:
-                    break;
+                    {
+                        break;
+                    }
             }
         }
 
@@ -202,11 +241,11 @@ namespace DesPat
                 {
                     changeActives();
                 }
-                if(changeInProjectiles)
+                if (changeInProjectiles)
                 {
                     changeProjectiles();
                 }
-                if(changeInMeatballs)
+                if (changeInMeatballs)
                 {
                     changeMeatballs();
                 }
@@ -245,75 +284,59 @@ namespace DesPat
                     {
                         player.checkKeys();
                     }
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Three).Buttons.Back == ButtonState.Pressed || KBS.IsKeyDown(Keys.Escape))
-                        Exit();
-                    if (forceExit)
-                    {
-                        Exit();
-                    }
                     break;
 
                 case 2:
-                    switch(pc)
+                    moveAndCheckCollisionProjectiles();
+
+                    //check if a player has pressed any keys.
+                    foreach (Player player in playerList)
+                    {
+                        player.checkKeys();
+                    }
+
+                    //this switch generates meatballs.
+                    switch (gamePC)
                     {
                         case 0:
-                            if(true)
+                            if (true)
                             {
-                                pc = 1;
-                                maximumMeatballs = 18 / 3;//* playerAmount;
+                                gamePC = 1;
+                                maximumMeatballs = (int) (18 / playerAmount);
                             }
                             break;
+
                         case 1:
-                            if(meatballs.Count < maximumMeatballs)
+                            if (meatballs.Count < maximumMeatballs)
                             {
-                                int n = (int)(random.NextDouble() * 100);
-                                if(n >= 0 && n <= 2)
-                                {
-                                    createMeatball(new Vector2((float)(random.NextDouble() * screenWidth), (float)(random.NextDouble() * screenHeight)), (float)(random.NextDouble() * 360), (float)(random.NextDouble() * 5) + 1.0f, 1.0f);
-                                }
+                                System.Diagnostics.Debug.WriteLine("Max meat:: " + maximumMeatballs);
+
+                                createMeatball();
                             }
                             break;
+
+                        case 2:
+                            maximumMeatballs = (int)(24 / playerAmount);
+                            break;
+
                         default:
                             break;
                     }
-                    if (meatballs.Count != 0)
-                    {
-                        System.Diagnostics.Debug.WriteLine("Meatbals: " + meatballs.Count);
-                        for (int i = 0; i < meatballs.Count; i++)
-                        {
-                            AutoMoveMeatball obj = meatballs[i];
-                            float objX = obj.getObject().getLocation().X;
-                            float objY = obj.getObject().getLocation().Y;
-                            System.Diagnostics.Debug.WriteLine("This meatball: " + objX + ", " + objY);
-                            if (objX < 0 || objX > screenWidth)
-                            {
-                                removeAsMeatball(obj);
-                                removeAsActive(obj.getObject());
-                            }
-                            else if (objY < 0 || objY > screenHeight)
-                            {
-                                removeAsMeatball(obj);
-                                removeAsActive(obj.getObject());
-                            }
-                            else
-                            {
-                                obj.getObject().addToLocation(obj.toAddX, obj.toAddY);
-                            }
-                        }
-                    }
 
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Three).Buttons.Back == ButtonState.Pressed || KBS.IsKeyDown(Keys.Escape))
-                        Exit();
-                    if (forceExit)
-                    {
-                        Exit();
-                    }
+                    moveMeatballs();
                     break;
 
                 default:
                     System.Diagnostics.Debug.WriteLine("Could not find screen");
                     Exit();
                     break;
+            }
+
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Three).Buttons.Back == ButtonState.Pressed || KBS.IsKeyDown(Keys.Escape))
+                Exit();
+            if (forceExit)
+            {
+                Exit();
             }
 
             oldMS = newMS;
@@ -333,7 +356,6 @@ namespace DesPat
             spriteBatch.End();
             base.Draw(gameTime);
         }
-
 
         public void moveAndCheckCollisionProjectiles()
         {
@@ -377,11 +399,15 @@ namespace DesPat
                                         System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() + " has COLLISION with something: " + collisionCheck.getType());
                                         //here you can handle the collision with a non-player object.
 
-                                        if (collisionCheck.getType().Equals("Seed") || collisionCheck.getType().Equals("Strawberry slice") || collisionCheck.getType().Equals("Banana slice") || collisionCheck.getType().Equals("Pear slice") || collisionCheck.getType().Equals("Meatball"))
+                                        if (collisionCheck.getType().Equals("Seed") || collisionCheck.getType().Equals("Strawberry slice") || collisionCheck.getType().Equals("Banana slice") || collisionCheck.getType().Equals("Pear slice"))
                                         {
                                             projectileObjects.Find(findProjectile => findProjectile.getObject() == collisionCheck).setSecondsLeft(0);
                                         }
-
+                                        else if(collisionCheck.getType().Equals("Meatball"))
+                                        {
+                                            removeAsMeatball(meatballs.Find(meatball => meatball.getObject() == collisionCheck));
+                                            removeAsActive(collisionCheck);
+                                        }
                                     }
 
                                     //Delete the projectile that hit something.
@@ -411,23 +437,76 @@ namespace DesPat
                 }
             }
         }
+        
+        public void moveMeatballs()
+        {
+            if (meatballs.Count != 0)
+            {
+                System.Diagnostics.Debug.WriteLine("Meatballs: " + meatballs.Count);
+                for (int i = 0; i < meatballs.Count; i++)
+                {
+                    AutoMoveMeatball obj = meatballs[i];
+                    float objWidth = obj.getObject().getTexture().Width * obj.getObject().getScale();
+                    float objHeight = obj.getObject().getTexture().Height * obj.getObject().getScale();
+                    float objX = obj.getObject().getLocation().X;
+                    float objY = obj.getObject().getLocation().Y;
+                    System.Diagnostics.Debug.WriteLine("This meatball: " + objX + ", " + objY);
+                    if (objX < 0 - objWidth / 2 || objX > screenWidth + objWidth / 2)
+                    {
+                        removeAsMeatball(obj);
+                        removeAsActive(obj.getObject());
+                    }
+                    else if (objY < 0 - objHeight / 2 || objY > screenHeight + objHeight / 2)
+                    {
+                        removeAsMeatball(obj);
+                        removeAsActive(obj.getObject());
+                    }
+                    else
+                    {
+                        obj.getObject().addToLocation(obj.toAddX, obj.toAddY);
+                    }
+                }
+            }
+        }
 
-        //the following 9 methods are to make sure a list will not be altered while a loop is checking them.
-        //Instead if changes are made they will be done at the start of the update() method.
-
-        //---------------------------------------------------------------------------------------
-        private static bool changeInMeatballs;
-        private List<AutoMoveMeatball> meatballs = new List<AutoMoveMeatball>();
-        private static List<AutoMoveMeatball> toDeautomateMeatballs = new List<AutoMoveMeatball>();
-        private static List<AutoMoveMeatball> toAutomateMeatballs = new List<AutoMoveMeatball>();
-
-        public void createMeatball(Vector2 location, float angle, float speed, float scale)
+        public void createMeatball()
         {
             Texture2D meatballImage = Main.imageList.Find(name => name.Name == "Meatball.png");
+
+            Vector2 location = new Vector2(0, 0);
+            float angle = 0;
+            float speed = (float)(random.NextDouble() * 5) + 1.0f;
+            float scale = (float)(random.NextDouble() * 4);
+
+            int n = random.Next(4);
+            if(n == 0)
+            {
+                location = new Vector2((float)(random.NextDouble() * screenWidth), (float)(0 - ((meatballImage.Height / 2) * scale)));
+                angle = (float)(random.NextDouble() * 140 + 110);
+            }
+            else if(n == 1)
+            {
+                location = new Vector2((float)(screenWidth + ((meatballImage.Width / 2) * scale)), (float)(random.NextDouble() * screenHeight));
+                angle = (float)(random.NextDouble() * 140 + 200);
+            }
+            else if (n == 2)
+            {
+                location = new Vector2((float)(random.NextDouble() * screenWidth), (float)(screenHeight + ((meatballImage.Height / 2) * scale)));
+                angle = (float)(random.NextDouble() * 140 + - 70);
+            }
+            else if (n == 3)
+            {
+                location = new Vector2((float)(0 - ((meatballImage.Width / 2) * scale)), (float)(random.NextDouble() * screenHeight));
+                angle = (float)(random.NextDouble() * 140 + 20);
+            }
+
             TextureObj projectileObj = new TextureObj(meatballImage, location, new Rectangle(0, 0, meatballImage.Width, meatballImage.Height), Color.White, angle, new Vector2(meatballImage.Width / 2, meatballImage.Height / 2), scale, SpriteEffects.None, 1.0f, "Meatball");
             Main.addAsActive(projectileObj);
             Main.addAsMeatball(new AutoMoveMeatball(projectileObj, speed, angle));
         }
+
+        //the following 9 methods are to make sure a list will not be altered while a loop is checking them.
+        //Instead if changes are made they will be done at the start of the update() method.
 
         private void changeMeatballs()
         {
@@ -456,7 +535,6 @@ namespace DesPat
             changeInMeatballs = true;
             changeInLists = true;
         }
-        //------------------------------------------------------------------
 
         private void changeProjectiles()
         {
