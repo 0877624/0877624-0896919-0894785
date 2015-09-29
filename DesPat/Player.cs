@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +12,8 @@ namespace DesPat
     {
         private int playerNumber;
         private TextureObj textureObj;
-        private Keys left;
-        private Keys right;
-        private Keys down;
-        private Keys shoot;
-        private Keys up;
 
-        private bool controller;
-        private PlayerIndex playerIndex;
+        private Input playerInput;
 
         private float movementSpeed;
         private float rotateSpeed;
@@ -31,81 +25,24 @@ namespace DesPat
 
         private Vector2 healthBarLocation;
 
-        public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot, Vector2 healthBarLocation)
+        public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, Vector2 healthBarLocation, Input playerInput)
         {
             this.playerNumber = playerNumber;
             this.textureObj = textureObj;
             this.movementSpeed = movementSpeed;
             this.rotateSpeed = rotateSpeed;
-            this.up = up;
-            this.left = left;
-            this.down = down;
-            this.right = right;
-            this.shoot = shoot;
             this.healthBarLocation = healthBarLocation;
-            controller = false;
+            this.playerInput = playerInput;
             
             String objName = "Life-" + (int)((health / maxHealth) * 3) + ".png";
             Texture2D healthBar = Main.imageList.Find(obj => obj.Name == objName);
             Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
         }
-        public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, PlayerIndex playerIndex, Vector2 healthBarLocation)
+
+        public void checkInput()
         {
-            this.playerNumber = playerNumber;
-            this.textureObj = textureObj;
-            this.movementSpeed = movementSpeed;
-            this.rotateSpeed = rotateSpeed;
-            this.playerIndex = playerIndex;
-            this.healthBarLocation = healthBarLocation;
-
-            //Temporary code till a main screen is added. 
-            //This way we can still control players and test if we dont have a controller at hand.
-            if (GamePad.GetState(playerIndex).IsConnected)
-            {
-                controller = true;
-            }
-            else
-            {
-                if(playerNumber == 2)
-                {
-                    controller = false;
-                    this.up = Keys.Up;
-                    this.left = Keys.Left;
-                    this.down = Keys.Down;
-                    this.right = Keys.Right;
-                    this.shoot = Keys.RightShift;
-                }
-                else if(playerNumber == 3)
-                {
-                    controller = false;
-                    this.up = Keys.I;
-                    this.left = Keys.J;
-                    this.down = Keys.K;
-                    this.right = Keys.L;
-                    this.shoot = Keys.RightAlt;
-                }
-            }
-            /////////////////////////////////////////////////////////////////////////////////////
-
-            String objName = "Life-" + (int)((health / maxHealth) * 3) + ".png";
-            Texture2D healthBar = Main.imageList.Find(obj => obj.Name == objName);
-            Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
-        }
-
-        public void checkKeys()
-        {
-            if(controller == true)
-            {
-                var gpd = GamePad.GetState(playerIndex);
-                executeKeys(gpd.ThumbSticks.Left.Y > 0f, gpd.ThumbSticks.Right.X < 0f, gpd.ThumbSticks.Left.Y < 0f, gpd.ThumbSticks.Right.X > 0f, gpd.Triggers.Right == 1.0f);
-            }
-            else
-            {
-                var KBS = Keyboard.GetState();
-                executeKeys(KBS.IsKeyDown(up), KBS.IsKeyDown(left), KBS.IsKeyDown(down), KBS.IsKeyDown(right), KBS.IsKeyDown(shoot));
-            }
-
-          
+            playerInput.update();
+            executeKeys(playerInput.up, playerInput.left, playerInput.down, playerInput.right, playerInput.shooting);        
         }
         private void executeKeys(bool up, bool left, bool down, bool right, bool shoot)
         {

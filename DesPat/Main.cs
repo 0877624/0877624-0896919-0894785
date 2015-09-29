@@ -6,9 +6,6 @@ using System.Collections.Generic;
 
 namespace DesPat
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class Main : Game
     {
         GraphicsDeviceManager graphics;
@@ -60,12 +57,6 @@ namespace DesPat
         {
             graphics = new GraphicsDeviceManager(this);
 
-            //NOTE: if fullscreen is activated, if an error occurs exiting the game will be very hard as the fullscreen will
-            //cover taskmanager and you wont exit. Instead try pressing enter if this happens that fixed it for me. -Juno
-            //Kevin: Try hitting Shift-F5 first in visual  studio, as this stops the current process.
-            //NOTE2: NOT RECOMMENDED AS IT WILL NOT WORK WITH THE MAIN SCREEN.
-            //graphics.ToggleFullScreen();
-
             Content.RootDirectory = "Content";
         }
 
@@ -90,6 +81,7 @@ namespace DesPat
                         //detect screen parameters
                         graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
                         graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+                        //make fullscreen or not.
                         graphics.IsFullScreen = false;
                         graphics.ApplyChanges();
 
@@ -146,18 +138,18 @@ namespace DesPat
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
                         imageList.Add(playerImage);
-                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
+                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, new Vector2(48, 16), new InputKeyboard(Keys.Escape, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space));
 
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D player2Image = Content.Load<Texture2D>("Strawberry.png");
                         imageList.Add(player2Image);
 
-                        createPlayer(imageList.Find(name => name.Name == "Strawberry.png"), screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, PlayerIndex.One, new Vector2(screenWidth - 48, 16));
+                        createPlayer(imageList.Find(name => name.Name == "Strawberry.png"), screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, new Vector2(screenWidth - 48, 16), new InputManager(new InputKeyboard(Keys.Escape, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.RightShift), new InputController(PlayerIndex.One)));
 
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D player3Image = Content.Load<Texture2D>("Pear.png");
                         imageList.Add(player3Image);
-                        createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 2 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, PlayerIndex.Two, new Vector2(48, screenHeight - 16));
+                        createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 2 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, new Vector2(48, screenHeight - 16), new InputManager(new InputKeyboard(Keys.Escape, Keys.I, Keys.J, Keys.K, Keys.L, Keys.RightAlt), new InputController(PlayerIndex.Two)));
                         break;
                     }
 
@@ -191,7 +183,7 @@ namespace DesPat
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
                         imageList.Add(playerImage);
-                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space, new Vector2(48, 16));
+                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, new Vector2(48, 16), new InputKeyboard(Keys.Escape, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space));
 
                         break;
                     }
@@ -203,21 +195,13 @@ namespace DesPat
             }
         }
 
-        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, Keys up, Keys left, Keys down, Keys right, Keys shoot, Vector2 healthBarLocation)
+        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, Vector2 healthBarLocation, Input playerInput)
         {
             playerAmount++;
             TextureObj playerObj = new TextureObj(playerAmount, playerImage, new Vector2(x, y), new Rectangle(0, 0, playerImage.Width, playerImage.Height), Color.White, 0, new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Player");
 
             addAsActive(playerObj);
-            playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, up, left, down, right, shoot, healthBarLocation));
-        }
-        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, PlayerIndex playerIndex, Vector2 healthBarLocation)
-        {
-            playerAmount++;
-            TextureObj playerObj = new TextureObj(playerAmount, playerImage, new Vector2(x, y), new Rectangle(0, 0, playerImage.Width, playerImage.Height), Color.White, 0, new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Player");
-
-            addAsActive(playerObj);
-            playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, playerIndex, healthBarLocation));
+            playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, healthBarLocation, playerInput));
         }
 
         protected override void UnloadContent()
@@ -226,6 +210,7 @@ namespace DesPat
         }
         protected override void Update(GameTime gameTime)
         {
+            GamePad.SetVibration(PlayerIndex.One, 1.0f, 1.0f);
             //check if the screen should change to another "level".
             if (changeInCurrentScreen)
             {
@@ -234,7 +219,7 @@ namespace DesPat
                 changeInCurrentScreen = false;
             }
 
-            //check if either the Actives list or the Projectile list has been changed.
+            //check if either the Actives list, Projectile list or Meatball list has been changed.
             if (changeInLists)
             {
                 if (changeInActives)
@@ -282,8 +267,9 @@ namespace DesPat
                     //check if a player has pressed any keys.
                     foreach (Player player in playerList)
                     {
-                        player.checkKeys();
+                        player.checkInput();
                     }
+
                     break;
 
                 case 2:
@@ -292,7 +278,7 @@ namespace DesPat
                     //check if a player has pressed any keys.
                     foreach (Player player in playerList)
                     {
-                        player.checkKeys();
+                        player.checkInput();
                     }
 
                     //this switch generates meatballs.
@@ -475,7 +461,7 @@ namespace DesPat
 
             Vector2 location = new Vector2(0, 0);
             float angle = 0;
-            float speed = (float)(random.NextDouble() * 5) + 1.0f;
+            float speed = (float)(random.NextDouble() * 20) + 1.0f;
             float scale = (float)(random.NextDouble() * 4);
 
             int n = random.Next(4);
