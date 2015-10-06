@@ -81,9 +81,7 @@ namespace DesPat
                         //detect screen parameters
                         graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
                         graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-                        //make fullscreen or not.
-                        graphics.IsFullScreen = false;
-                        graphics.ApplyChanges();
+                        
 
                         screenWidth = GraphicsDevice.Viewport.Width;
                         screenHeight = GraphicsDevice.Viewport.Height;
@@ -238,7 +236,7 @@ namespace DesPat
         }
         protected override void Update(GameTime gameTime)
         {
-            GamePad.SetVibration(PlayerIndex.One, 1.0f, 1.0f);
+            //SharpDX.XInput.Controller.SetVibration();
             //check if the screen should change to another "level".
             if (changeInCurrentScreen)
             {
@@ -246,6 +244,26 @@ namespace DesPat
                 LoadContent();
                 changeInCurrentScreen = false;
             }
+
+            //register key for fullscreen mode.
+            var KBSTemp = Keyboard.GetState();
+            if (KBSTemp.IsKeyDown(Keys.PageUp))
+            {
+                //make fullscreen
+                graphics.IsFullScreen = true;
+                graphics.ApplyChanges();
+                screenWidth = GraphicsDevice.Viewport.Width;
+                screenHeight = GraphicsDevice.Viewport.Height;
+            }
+            if (KBSTemp.IsKeyDown(Keys.PageDown))
+            {
+                //make fullscreen
+                graphics.IsFullScreen = false;
+                graphics.ApplyChanges();
+                screenWidth = GraphicsDevice.Viewport.Width;
+                screenHeight = GraphicsDevice.Viewport.Height;
+            }
+
 
             //check if either the Actives list, Projectile list or Meatball list has been changed.
             if (changeInLists)
