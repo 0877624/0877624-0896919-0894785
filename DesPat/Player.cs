@@ -25,6 +25,12 @@ namespace DesPat
 
         private Vector2 healthBarLocation;
 
+        //controller vibration
+        public static ushort leftRumbleMotor = 65000;
+        public static ushort rightRumbleMotor = 65000;
+        public static SharpDX.XInput.Controller controller = new SharpDX.XInput.Controller();
+        public static SharpDX.XInput.Vibration vibration = new SharpDX.XInput.Vibration();
+
         public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, Vector2 healthBarLocation, Input playerInput)
         {
             this.playerNumber = playerNumber;
@@ -106,7 +112,7 @@ namespace DesPat
             {
                 if (lastShot == 0 || (DateTime.Now.Ticks - lastShot) / 5000000 >= 1)
                 {
-                    shootSeed(playerNumber, 5.0, 5f);
+                    shootProjectile(playerNumber, 5.0, 5f);
                     lastShot = DateTime.Now.Ticks;
                 }
             }
@@ -126,8 +132,12 @@ namespace DesPat
 
 
         }
-        public void shootSeed(int playerNumber, double seconds, float speed)
+        public void shootProjectile(int playerNumber, double seconds, float speed)
         {
+            vibration.LeftMotorSpeed = leftRumbleMotor;
+            vibration.RightMotorSpeed = rightRumbleMotor;
+            controller.SetVibration(vibration);
+               
             TextureObj projectileObj = createProjectileObject(playerNumber);
             Main.addAsActive(projectileObj);
             Main.addAsAutomatic(new AutoMoveProjectile(playerNumber, projectileObj, seconds, speed, textureObj.getAngle()));
@@ -151,6 +161,11 @@ namespace DesPat
             {
                 projectileImage = Main.imageList.Find(name => name.Name == "Projectile-pear.png");
                 projectileType = "Pear slice";
+            }
+            else if (playerNumber == 4)
+            {
+                projectileImage = Main.imageList.Find(name => name.Name == "Projectile-grape.png");
+                projectileType = "Grape slice";
             }
             else
             {

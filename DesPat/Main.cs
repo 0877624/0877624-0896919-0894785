@@ -91,7 +91,8 @@ namespace DesPat
 
                         Texture2D mainScreen = Content.Load<Texture2D>("MainScreen.png");
                         imageList.Add(mainScreen);
-                        addAsActive(new TextureObj(mainScreen, new Vector2(0, 0), new Rectangle(0, 0, mainScreen.Width, mainScreen.Height), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "MainScreen"));
+                        addAsActive(new TextureObj(mainScreen, new Vector2(0, 0), new Rectangle(0, 0, mainScreen.Width, mainScreen.Height), Color.White, 0, 
+                            new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "MainScreen"));
                         break;
                     }
 
@@ -102,7 +103,8 @@ namespace DesPat
                         //Load BG
                         Texture2D bg = Content.Load<Texture2D>("Space.jpg");
                         imageList.Add(bg);
-                        addAsActive(new TextureObj(bg, new Vector2(0, 0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "Background"));
+                        addAsActive(new TextureObj(bg, new Vector2(0, 0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0, 
+                            new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "Background"));
 
                         //############################################################################################################################################
                         //Load Banana Projectile image.
@@ -117,6 +119,10 @@ namespace DesPat
                         Texture2D projectilePearImage = Content.Load<Texture2D>("Projectile-pear.png");
                         imageList.Add(projectilePearImage);
                         System.Diagnostics.Debug.WriteLine("Pear projectile: " + projectilePearImage.Name);
+                        //Load Grape projectile image.
+                        Texture2D projectileGrapeImage = Content.Load<Texture2D>("Projectile-grape.png");
+                        imageList.Add(projectileGrapeImage);
+                        System.Diagnostics.Debug.WriteLine("Grape projectile: " + projectileGrapeImage.Name);
                         //############################################################################################################################################
 
                         //load the seed image.
@@ -138,18 +144,33 @@ namespace DesPat
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
                         imageList.Add(playerImage);
-                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, new Vector2(48, 16), new InputKeyboard(Keys.Escape, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space));
+                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), 
+                            screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, 
+                            new Vector2(48, 16), new InputKeyboard(Keys.Escape, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space));
 
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D player2Image = Content.Load<Texture2D>("Strawberry.png");
                         imageList.Add(player2Image);
 
-                        createPlayer(imageList.Find(name => name.Name == "Strawberry.png"), screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, new Vector2(screenWidth - 48, 16), new InputManager(new InputKeyboard(Keys.Escape, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.RightShift), new InputController(PlayerIndex.One)));
+                        createPlayer(imageList.Find(name => name.Name == "Strawberry.png"), 
+                            screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, 
+                            new Vector2(screenWidth - 48, 16), new InputManager(
+                            new InputKeyboard(Keys.Escape, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.RightShift), 
+                            new InputController(PlayerIndex.One)));
 
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D player3Image = Content.Load<Texture2D>("Pear.png");
                         imageList.Add(player3Image);
-                        createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 2 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, new Vector2(48, screenHeight - 16), new InputManager(new InputKeyboard(Keys.Escape, Keys.I, Keys.J, Keys.K, Keys.L, Keys.RightAlt), new InputController(PlayerIndex.Two)));
+                        createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 1 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, 
+                            new Vector2(48, screenHeight - 16), new InputManager(new InputKeyboard(Keys.Escape, Keys.I, Keys.J, Keys.K, Keys.L, Keys.RightAlt), 
+                            new InputController(PlayerIndex.Two)));
+
+                        System.Diagnostics.Debug.WriteLine("Making a player ");
+                        Texture2D player4Image = Content.Load<Texture2D>("Grapes.png");
+                        imageList.Add(player4Image);
+                        createPlayer(imageList.Find(name => name.Name == "Grapes.png"), screenWidth / 4 * 3 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, 
+                            new Vector2(screenWidth - 48, screenHeight - 16), new InputManager(new InputKeyboard(Keys.Escape, Keys.NumPad8, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.Enter), 
+                            new InputController(PlayerIndex.Three)));
                         break;
                     }
 
@@ -158,7 +179,9 @@ namespace DesPat
                         //Load BG
                         Texture2D bg2 = Content.Load<Texture2D>("Space.jpg");
                         imageList.Add(bg2);
-                        addAsActive(new TextureObj(bg2, new Vector2(0, 0), new Rectangle(0, 0, bg2.Width, bg2.Height), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "Background"));
+                        addAsActive(new TextureObj(bg2, new Vector2(0, 0), 
+                            new Rectangle(0, 0, bg2.Width, bg2.Height), Color.White, 0, 
+                            new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "Background"));
 
                         //Load meatball
                         Texture2D meatballImage = Content.Load<Texture2D>("Meatball.png");
@@ -183,7 +206,9 @@ namespace DesPat
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
                         imageList.Add(playerImage);
-                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, new Vector2(48, 16), new InputKeyboard(Keys.Escape, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space));
+                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), 
+                            screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, 
+                            new Vector2(48, 16), new InputKeyboard(Keys.Escape, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space));
 
                         break;
                     }
@@ -195,10 +220,13 @@ namespace DesPat
             }
         }
 
-        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, float rotateSpeed, Vector2 healthBarLocation, Input playerInput)
+        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, 
+            float rotateSpeed, Vector2 healthBarLocation, Input playerInput)
         {
             playerAmount++;
-            TextureObj playerObj = new TextureObj(playerAmount, playerImage, new Vector2(x, y), new Rectangle(0, 0, playerImage.Width, playerImage.Height), Color.White, 0, new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Player");
+            TextureObj playerObj = new TextureObj(playerAmount, playerImage, new Vector2(x, y), 
+                new Rectangle(0, 0, playerImage.Width, playerImage.Height), Color.White, 0, 
+                new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Player");
 
             addAsActive(playerObj);
             playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, healthBarLocation, playerInput));
@@ -244,7 +272,9 @@ namespace DesPat
             {
                 case 0:
                     Mouse.SetPosition((int)(newMS.X + gpdOne.ThumbSticks.Left.X * 6), (int)(newMS.Y - gpdOne.ThumbSticks.Left.Y * 6));
-                    if (newMS.LeftButton == ButtonState.Released && oldMS.LeftButton == ButtonState.Pressed || gpdOne.Buttons.A == ButtonState.Pressed)
+                    if (newMS.LeftButton == ButtonState.Released 
+                        && oldMS.LeftButton == ButtonState.Pressed 
+                        || gpdOne.Buttons.A == ButtonState.Pressed)
                     {
                         if (newMS.X >= 100 && newMS.X < 300)
                         {
@@ -318,7 +348,10 @@ namespace DesPat
                     break;
             }
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Three).Buttons.Back == ButtonState.Pressed || KBS.IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
+                || GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed 
+                || GamePad.GetState(PlayerIndex.Three).Buttons.Back == ButtonState.Pressed 
+                || KBS.IsKeyDown(Keys.Escape))
                 Exit();
             if (forceExit)
             {
@@ -372,7 +405,8 @@ namespace DesPat
                                     //if the playerNumber of the texture object is not 0, a player has been hit.
                                     if (collisionCheck.getPlayerNumber() != 0)
                                     {
-                                        System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() + " has COLLISION with Player: " + collisionCheck.getPlayerNumber());
+                                        System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() 
+                                            + " has COLLISION with Player: " + collisionCheck.getPlayerNumber());
                                         //Here you can handle the collision with a player, like lowering the HP of the hit target.
 
                                         Player hitPlayer = playerList.Find(player => player.getPlayerNumber() == collisionCheck.getPlayerNumber());
@@ -382,10 +416,15 @@ namespace DesPat
                                     //else the hit object is not a player.
                                     else
                                     {
-                                        System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() + " has COLLISION with something: " + collisionCheck.getType());
+                                        System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() 
+                                            + " has COLLISION with something: " + collisionCheck.getType());
                                         //here you can handle the collision with a non-player object.
 
-                                        if (collisionCheck.getType().Equals("Seed") || collisionCheck.getType().Equals("Strawberry slice") || collisionCheck.getType().Equals("Banana slice") || collisionCheck.getType().Equals("Pear slice"))
+                                        if (collisionCheck.getType().Equals("Seed") 
+                                            || collisionCheck.getType().Equals("Strawberry slice") 
+                                            || collisionCheck.getType().Equals("Banana slice") 
+                                            || collisionCheck.getType().Equals("Pear slice") 
+                                            || collisionCheck.getType().Equals("Grape slice"))
                                         {
                                             projectileObjects.Find(findProjectile => findProjectile.getObject() == collisionCheck).setSecondsLeft(0);
                                         }

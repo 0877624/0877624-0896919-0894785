@@ -192,13 +192,14 @@ D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.RawInput.dl
 D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.dll
 D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\MonoGame.Framework.xml
 D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.MediaFoundation.xml
-D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.xml
 D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.XAudio2.xml
 D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.Direct3D11.xml
 D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.DXGI.xml
 D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.Direct2D1.xml
-D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.XInput.xml
 D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.RawInput.xml
 D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\SharpDX.Direct3D9.xml
 D:\Projects\0877624-0896919-0894785\DesPat\obj\x86\Debug\DesPat.csprojResolveAssemblyReference.cache
 C:\Users\junov_000\Documents\Visual Studio 2015\Projects\DesPat\bin\Windows\Debug\Content\Meatball.png
+D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\Content\Meatball.png
+D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\Content\Grapes.png
+D:\Projects\0877624-0896919-0894785\DesPat\bin\Windows\Debug\Content\Projectile-grape.png
