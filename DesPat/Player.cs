@@ -64,32 +64,34 @@ namespace DesPat
         {
             Texture2D projectileImage;
             String projectileType;
+            String projectileImageString;
 
             if (playerNumber == 1)
             {
-                projectileImage = Main.imageList.Find(name => name.Name == "Projectile-banana.png");
+                projectileImageString = "Projectile-banana.png";
                 projectileType = "Banana slice";
             }
             else if (playerNumber == 2)
             {
-                projectileImage = Main.imageList.Find(name => name.Name == "Projectile-strawberry.png");
+                projectileImageString = "Projectile-strawberry.png";
                 projectileType = "Strawberry slice";
             }
             else if(playerNumber == 3)
             {
-                projectileImage = Main.imageList.Find(name => name.Name == "Projectile-pear.png");
+                projectileImageString = "Projectile-pear.png";
                 projectileType = "Pear slice";
             }
             else if (playerNumber == 4)
             {
-                projectileImage = Main.imageList.Find(name => name.Name == "Projectile-grape.png");
+                projectileImageString = "Projectile-grape.png";
                 projectileType = "Grape slice";
             }
             else
             {
-                projectileImage = Main.imageList.Find(name => name.Name == "Seed.png");
+                projectileImageString = "Seed.png";
                 projectileType = "Seed";
             }
+            projectileImage = Main.imageList.Find(name => name.Name == projectileImageString);
             return new TextureObj(projectileImage, textureObj.getLocation(), new Rectangle(0, 0, projectileImage.Width, projectileImage.Height), Color.White, 0, new Vector2(projectileImage.Width / 2, projectileImage.Height / 2), 1.0f, SpriteEffects.None, 1, projectileType);
         }
         public void changeHealth(double newHealth)
