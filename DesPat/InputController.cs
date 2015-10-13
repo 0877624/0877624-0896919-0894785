@@ -11,11 +11,23 @@ namespace DesPat
     {
         PlayerIndex playerIndex;
         GamePadState GPS;
-        
+
+        public static SharpDX.XInput.Controller controller;
+        public static SharpDX.XInput.Vibration vibration = new SharpDX.XInput.Vibration();
+        bool doVibrate;
+        long vibrateStart;
 
         public InputController(PlayerIndex playerIndex)
         {
             this.playerIndex = playerIndex;
+            if (playerIndex == PlayerIndex.One)
+            {
+                controller = new SharpDX.XInput.Controller(SharpDX.XInput.UserIndex.One);
+            }
+            if (playerIndex == PlayerIndex.Two)
+            {
+                controller = new SharpDX.XInput.Controller(SharpDX.XInput.UserIndex.Two);
+            }
             this.GPS = GamePad.GetState(playerIndex);
         }
 
@@ -67,10 +79,36 @@ namespace DesPat
             }
         }
 
+        public void vibrate()
+        {
+            if (GamePad.GetState(playerIndex).IsConnected)
+            {
+                System.Diagnostics.Debug.Print("PlayerIndex: " + playerIndex + ", IS GAMEPAD CONNECTED");
+            }
+            if (controller.IsConnected)
+            {
+                System.Diagnostics.Debug.Print("PlayerIndex: " + playerIndex + ", IS CONTROLLER CONNECTED");
+
+                vibrateStart = DateTime.Now.Ticks;
+                doVibrate = true;
+            }
+        }
         public void update()
         {
             GPS = GamePad.GetState(playerIndex);
-            
+            if(doVibrate)
+            {
+                vibration.LeftMotorSpeed = 65000;
+                vibration.RightMotorSpeed = 65000;
+                controller.SetVibration(vibration);
+                if((DateTime.Now.Ticks - vibrateStart)/ 5000000 >= 1)
+                {
+                    doVibrate = false;
+                    vibration.LeftMotorSpeed = 0;
+                    vibration.RightMotorSpeed = 0;
+                    controller.SetVibration(vibration);
+                }
+            }
         }
     }
 }

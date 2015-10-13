@@ -81,7 +81,7 @@ namespace DesPat
                         //detect screen parameters
                         graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
                         graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-                        
+
 
                         screenWidth = GraphicsDevice.Viewport.Width;
                         screenHeight = GraphicsDevice.Viewport.Height;
@@ -89,7 +89,7 @@ namespace DesPat
 
                         Texture2D mainScreen = Content.Load<Texture2D>("MainScreen.png");
                         imageList.Add(mainScreen);
-                        addAsActive(new TextureObj(mainScreen, new Vector2(0, 0), new Rectangle(0, 0, mainScreen.Width, mainScreen.Height), Color.White, 0, 
+                        addAsActive(new TextureObj(mainScreen, new Vector2(0, 0), new Rectangle(0, 0, mainScreen.Width, mainScreen.Height), Color.White, 0,
                             new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "MainScreen"));
                         break;
                     }
@@ -101,7 +101,7 @@ namespace DesPat
                         //Load BG
                         Texture2D bg = Content.Load<Texture2D>("Space.jpg");
                         imageList.Add(bg);
-                        addAsActive(new TextureObj(bg, new Vector2(0, 0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0, 
+                        addAsActive(new TextureObj(bg, new Vector2(0, 0), new Rectangle(0, 0, bg.Width, bg.Height), Color.White, 0,
                             new Vector2(0, 0), 1.0f, SpriteEffects.None, 1, "Background"));
 
                         //############################################################################################################################################
@@ -142,33 +142,39 @@ namespace DesPat
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
                         imageList.Add(playerImage);
-                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), 
-                            screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, 
+                        Player playerOne = createPlayer(imageList.Find(name => name.Name == "Banana.png"),
+                            screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f,
                             new Vector2(48, 16), new InputKeyboard(Keys.Escape, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space));
+                        playerOne.addWeapon(new bananaShot(playerOne));
 
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D player2Image = Content.Load<Texture2D>("Strawberry.png");
                         imageList.Add(player2Image);
 
-                        createPlayer(imageList.Find(name => name.Name == "Strawberry.png"), 
+                        Player playerTwo = createPlayer(imageList.Find(name => name.Name == "Strawberry.png"), 
                             screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, 
                             new Vector2(screenWidth - 48, 16), new InputManager(
                             new InputKeyboard(Keys.Escape, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.RightShift), 
                             new InputController(PlayerIndex.One)));
+                        playerTwo.addWeapon(new bananaShot(playerTwo));
 
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D player3Image = Content.Load<Texture2D>("Pear.png");
                         imageList.Add(player3Image);
-                        createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 1 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, 
-                            new Vector2(48, screenHeight - 16), new InputManager(new InputKeyboard(Keys.Escape, Keys.I, Keys.J, Keys.K, Keys.L, Keys.RightAlt), 
+                        Player playerThree = createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 1 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, 
+                            new Vector2(48, screenHeight - 16), new InputManager(
+                            new InputKeyboard(Keys.Escape, Keys.I, Keys.J, Keys.K, Keys.L, Keys.RightAlt), 
                             new InputController(PlayerIndex.Two)));
+                        playerThree.addWeapon(new bananaShot(playerThree));
 
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D player4Image = Content.Load<Texture2D>("Grapes.png");
                         imageList.Add(player4Image);
-                        createPlayer(imageList.Find(name => name.Name == "Grapes.png"), screenWidth / 4 * 3 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, 
-                            new Vector2(screenWidth - 48, screenHeight - 16), new InputManager(new InputKeyboard(Keys.Escape, Keys.NumPad8, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.Enter), 
+                        Player playerFour = createPlayer(imageList.Find(name => name.Name == "Grapes.png"), screenWidth / 4 * 3 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, 
+                            new Vector2(screenWidth - 48, screenHeight - 16), new InputManager(
+                            new InputKeyboard(Keys.Escape, Keys.NumPad8, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.Enter), 
                             new InputController(PlayerIndex.Three)));
+                        playerFour.addWeapon(new bananaShot(playerFour));
                         break;
                     }
 
@@ -204,10 +210,10 @@ namespace DesPat
                         System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
                         imageList.Add(playerImage);
-                        createPlayer(imageList.Find(name => name.Name == "Banana.png"), 
+                        Player playerOne = createPlayer(imageList.Find(name => name.Name == "Banana.png"), 
                             screenWidth / 4 - playerImage.Width / 2, screenHeight / 4 - playerImage.Height / 2, 2.5f, 5f, 
                             new Vector2(48, 16), new InputKeyboard(Keys.Escape, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space));
-
+                        playerOne.addWeapon(new bananaShot(playerOne));
                         break;
                     }
 
@@ -218,7 +224,7 @@ namespace DesPat
             }
         }
 
-        private void createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, 
+        private Player createPlayer(Texture2D playerImage, int x, int y, float movementSpeed, 
             float rotateSpeed, Vector2 healthBarLocation, Input playerInput)
         {
             playerAmount++;
@@ -227,7 +233,9 @@ namespace DesPat
                 new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Player");
 
             addAsActive(playerObj);
-            playerList.Add(new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, healthBarLocation, playerInput));
+            Player newPlayer = new Player(playerAmount, playerObj, movementSpeed, rotateSpeed, healthBarLocation, playerInput);
+            playerList.Add(newPlayer);
+            return newPlayer;
         }
 
         protected override void UnloadContent()
@@ -236,7 +244,6 @@ namespace DesPat
         }
         protected override void Update(GameTime gameTime)
         {
-            //SharpDX.XInput.Controller.SetVibration();
             //check if the screen should change to another "level".
             if (changeInCurrentScreen)
             {
@@ -268,7 +275,9 @@ namespace DesPat
 
             switch (currentScreen)
             {
+                //case 0 means the min screen.
                 case 0:
+                    //Make sure controller One can move the mouse in the main screen.
                     Mouse.SetPosition((int)(newMS.X + gpdOne.ThumbSticks.Left.X * 6), (int)(newMS.Y - gpdOne.ThumbSticks.Left.Y * 6));
                     if (newMS.LeftButton == ButtonState.Released 
                         && oldMS.LeftButton == ButtonState.Pressed 
@@ -289,18 +298,20 @@ namespace DesPat
                         }
                     }
                     break;
+                //case 1 means the PvP with 4 players.
                 case 1:
+                    //Does what the method name says.
                     moveAndCheckCollisionProjectiles();
 
-                    //check if a player has pressed any keys.
+                    //check if a player has pressed any keys, and react.
                     foreach (Player player in playerList)
                     {
                         player.checkInput();
                     }
-
                     break;
-
+                //case 2 means the 1-player fight where you can shoot meatball. Not much else.
                 case 2:
+                    //Does what method name says.
                     moveAndCheckCollisionProjectiles();
 
                     //check if a player has pressed any keys.
@@ -309,14 +320,14 @@ namespace DesPat
                         player.checkInput();
                     }
 
-                    //this switch generates meatballs.
+                    //this switch generates the meatballs.
                     switch (gamePC)
                     {
                         case 0:
                             if (true)
                             {
                                 gamePC = 1;
-                                maximumMeatballs = (int) (18 / playerAmount);
+                                maximumMeatballs = (int) (2 / playerAmount);
                             }
                             break;
 
@@ -324,28 +335,34 @@ namespace DesPat
                             if (meatballs.Count < maximumMeatballs)
                             {
                                 System.Diagnostics.Debug.WriteLine("Max meat:: " + maximumMeatballs);
-
                                 createMeatball();
+                            }
+                            else
+                            {
+                                gamePC = 2;
                             }
                             break;
 
                         case 2:
-                            maximumMeatballs = (int)(24 / playerAmount);
+                            maximumMeatballs = (int)((maximumMeatballs + 2) / playerAmount);
+                            gamePC = 1;
                             break;
 
                         default:
                             break;
                     }
 
+                    //Moves the meatballs so they move across the screen.
                     moveMeatballs();
                     break;
 
+                //If for some reason the "level" or screen could not be found exit the game.
                 default:
                     System.Diagnostics.Debug.WriteLine("Could not find screen");
                     Exit();
                     break;
             }
-
+            //Exit the game if controllers 1-3 press back, or keyboard presses escape.
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
                 || GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed 
                 || GamePad.GetState(PlayerIndex.Three).Buttons.Back == ButtonState.Pressed 
@@ -362,7 +379,7 @@ namespace DesPat
             }
             if (KBS.IsKeyDown(Keys.PageDown))
             {
-                //make fullscreen
+                //make non-fullscreen
                 graphics.IsFullScreen = false;
                 graphics.ApplyChanges();
                 screenWidth = GraphicsDevice.Viewport.Width;
@@ -482,7 +499,7 @@ namespace DesPat
         {
             if (meatballs.Count != 0)
             {
-                System.Diagnostics.Debug.WriteLine("Meatballs: " + meatballs.Count);
+                //System.Diagnostics.Debug.WriteLine("Meatballs: " + meatballs.Count);
                 for (int i = 0; i < meatballs.Count; i++)
                 {
                     AutoMoveMeatball obj = meatballs[i];
@@ -490,13 +507,13 @@ namespace DesPat
                     float objHeight = obj.getObject().getTexture().Height * obj.getObject().getScale();
                     float objX = obj.getObject().getLocation().X;
                     float objY = obj.getObject().getLocation().Y;
-                    System.Diagnostics.Debug.WriteLine("This meatball: " + objX + ", " + objY);
-                    if (objX < 0 - objWidth / 2 || objX > screenWidth + objWidth / 2)
+                    //System.Diagnostics.Debug.WriteLine("This meatball: " + objX + ", OK,  " + objY + ", AND: " + (screenHeight + objHeight / 2));
+                    if (objX <= (0 - objWidth / 2) || objX >= (screenWidth + objWidth / 2))
                     {
                         removeAsMeatball(obj);
                         removeAsActive(obj.getObject());
                     }
-                    else if (objY < 0 - objHeight / 2 || objY > screenHeight + objHeight / 2)
+                    else if (objY <= (0 - objHeight / 2) || objY >= (screenHeight + objHeight / 2))
                     {
                         removeAsMeatball(obj);
                         removeAsActive(obj.getObject());
@@ -533,6 +550,11 @@ namespace DesPat
             {
                 location = new Vector2((float)(random.NextDouble() * screenWidth), (float)(screenHeight + ((meatballImage.Height / 2) * scale)));
                 angle = (float)(random.NextDouble() * 140 + - 70);
+                //To make sure you dont pass on negative angles.
+                if (angle < 0)
+                {
+                    angle += 359;
+                }
             }
             else if (n == 3)
             {

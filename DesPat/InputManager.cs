@@ -69,5 +69,10 @@ namespace DesPat
             inputOne.update();
             inputTwo.update();
         }
+        public void vibrate()
+        {
+            inputOne.vibrate();
+            inputTwo.vibrate();
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace DesPat
         bool right { get; }
         bool shooting { get; }
 
+        void vibrate();
         void update();
     }
 }

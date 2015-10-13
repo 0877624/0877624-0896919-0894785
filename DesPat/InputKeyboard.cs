@@ -78,5 +78,10 @@ namespace DesPat
         {
             KBS = Keyboard.GetState();
         }
+
+        public void vibrate()
+        {
+            //
+        }
     }
 }

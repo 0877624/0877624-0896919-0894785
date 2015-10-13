@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,18 +8,15 @@ namespace DesPat
     {
         private int playerNumber;
 
+        //lastShot holds the time since last shot fired.
         private long lastShot = 0;
 
-        private double maxHealth = 3;
-        private double health = 3;
+        //maxHealth is the max health, health is the currentHealth and is the field that changes when the player is hit.
+        private double maxHealth = 6;
+        private double health = 6;
 
         private Vector2 healthBarLocation;
-
-        //controller vibration
-        public static ushort leftRumbleMotor = 65000;
-        public static ushort rightRumbleMotor = 65000;
-        public static SharpDX.XInput.Controller controller = new SharpDX.XInput.Controller();
-        public static SharpDX.XInput.Vibration vibration = new SharpDX.XInput.Vibration();
+        private Weapon playerWeapon;
 
         public Player(int playerNumber, TextureObj textureObj, float movementSpeed, float rotateSpeed, Vector2 healthBarLocation, Input entityInput)
         {
@@ -33,101 +26,58 @@ namespace DesPat
             base.rotateSpeed = rotateSpeed;
             this.healthBarLocation = healthBarLocation;
             base.entityInput = entityInput;
-            
-            String objName = "Life-" + (int)((health / maxHealth) * 3) + ".png";
+
+            //create and add the healthbar to active textures.
+            String objName = "Life-" + (int)(((health + (maxHealth / 3.0 - 1)) / maxHealth) * 3) + ".png";
             Texture2D healthBar = Main.imageList.Find(obj => obj.Name == objName);
             Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
         }
+
+        //CheckInput is called every update for every player. It will check if input is happening and respond with
+        //whatever has to happen.
         public new void checkInput()
         {
             base.checkInput();
-            if (entityInput.shooting)
+            if (playerWeapon != null)
             {
-                if (lastShot == 0 || (DateTime.Now.Ticks - lastShot) / 5000000 >= 1)
+                if (entityInput.shooting)
                 {
-                    shootProjectile(playerNumber, 5.0, 5f);
-                    lastShot = DateTime.Now.Ticks;
+                    System.Diagnostics.Debug.Print("SHOOOOOOOOOTINGGGGGGG");
+                    if (lastShot == 0 || (DateTime.Now.Ticks - lastShot) / 5000000 >= 1)
+                    {
+                        playerWeapon.shoot();
+                        lastShot = DateTime.Now.Ticks;
+                        entityInput.vibrate();
+                    }
                 }
             }
         }
-        public void shootProjectile(int playerNumber, double seconds, float speed)
-        {
-            //vibration.LeftMotorSpeed = leftRumbleMotor;
-            //vibration.RightMotorSpeed = rightRumbleMotor;
-            //controller.SetVibration(vibration);
-               
-            TextureObj projectileObj = createProjectileObject(playerNumber);
-            Main.addAsActive(projectileObj);
-            Main.addAsAutomatic(new AutoMoveProjectile(playerNumber, projectileObj, seconds, speed, textureObj.getAngle()));
-        }
-        public TextureObj createProjectileObject(int playerNumber)
-        {
-            Texture2D projectileImage;
-            String projectileType;
-            String projectileImageString;
-
-            if (playerNumber == 1)
-            {
-                projectileImageString = "Projectile-banana.png";
-                projectileType = "Banana slice";
-            }
-            else if (playerNumber == 2)
-            {
-                projectileImageString = "Projectile-strawberry.png";
-                projectileType = "Strawberry slice";
-            }
-            else if(playerNumber == 3)
-            {
-                projectileImageString = "Projectile-pear.png";
-                projectileType = "Pear slice";
-            }
-            else if (playerNumber == 4)
-            {
-                projectileImageString = "Projectile-grape.png";
-                projectileType = "Grape slice";
-            }
-            else
-            {
-                projectileImageString = "Seed.png";
-                projectileType = "Seed";
-            }
-            projectileImage = Main.imageList.Find(name => name.Name == projectileImageString);
-            return new TextureObj(projectileImage, textureObj.getLocation(), new Rectangle(0, 0, projectileImage.Width, projectileImage.Height), Color.White, 0, new Vector2(projectileImage.Width / 2, projectileImage.Height / 2), 1.0f, SpriteEffects.None, 1, projectileType);
-        }
+        //The changeHealth method changes the picture of the health aswell as the stored health value into the given value.
         public void changeHealth(double newHealth)
         {
             health = newHealth;
-            if (health > 0)
+            //First remove old healthbar from active textures. Do this by finding a texture which's type is "Healthbar" and has a corresponding playerNumber.
+            Main.removeAsActive(Main.activeObjects.Find(obj => obj.getPlayerNumber() == playerNumber && obj.getType() == "Healthbar"));
+            //Then create the new healthbar with its corresponding picture.
+            Texture2D healthBar = Main.imageList.Find(obj => obj.Name == "Life-" + (int)(((health + (maxHealth / 3.0 - 1)) / maxHealth) * 3) + ".png");
+            //Check if the picture actually exist and is not null. If not, crash the game.
+            if (healthBar != null)
             {
-                Main.removeAsActive(Main.activeObjects.Find(obj => obj.getPlayerNumber() == playerNumber && obj.getType() == "Healthbar"));
-                Texture2D healthBar = Main.imageList.Find(obj => obj.Name == "Life-" + (int)((health / maxHealth) * 3) + ".png");
-                if (healthBar != null)
-                {
-                    Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
-                }
-                else
-                {
-                    Main.ExitGame();
-                }
+                Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
             }
             else
             {
-                Main.removeAsActive(Main.activeObjects.Find(obj => obj.getPlayerNumber() == playerNumber && obj.getType() == "Healthbar"));
-                Texture2D healthBar = Main.imageList.Find(obj => obj.Name == "Life-" + (int)((health / maxHealth) * 3) + ".png");
-                if (healthBar != null)
-                {
-                    Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
-                }
-                else
-                {
-                    Main.ExitGame();
-                }
-
+                Main.ExitGame();
+            }
+            //If health is less than 0, remove the player from active textures and from the playerList.
+            if(health <= 0)
+            { 
                 Main.playerList.Remove(this);
                 Main.removeAsActive(textureObj);
             }
-            
         }
+
+        //Getters that return certain values.
         public double getHealth()
         {
             return health;
@@ -139,6 +89,10 @@ namespace DesPat
         public int getPlayerNumber()
         {
             return playerNumber;
+        }
+        public void addWeapon(Weapon playerWeapon)
+        {
+            this.playerWeapon = playerWeapon;
         }
     }
 }
