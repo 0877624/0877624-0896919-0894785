@@ -9,20 +9,18 @@ namespace DesPat
     {
         int playerNumber;
         TextureObj obj;
-        double secondsLeft;
+        float timeLeft;
         float speed;
         public float toAddX;
         public float toAddY;
-        long startTime;
 
-        public AutoMoveProjectile(int playerNumber, TextureObj obj, double seconds, float speed, float angle)
+        public AutoMoveProjectile(int playerNumber, TextureObj obj, float seconds, float speed, float angle)
         {
             this.playerNumber = playerNumber;
             this.obj = obj;
-            secondsLeft = seconds;
+            timeLeft = seconds;
             this.speed = speed;
             calculateToAdd(angle);
-            startTime = DateTime.Now.Ticks;
         }
         public void calculateToAdd(float angle)
         {
@@ -51,25 +49,17 @@ namespace DesPat
         {
             return obj;
         }
-        public double getSecondsLeft()
+        public float getTimeLeft()
         {
-            return secondsLeft;
+            return timeLeft;
         }
         public float getSpeed()
         {
             return speed;
         }
-        public void setSecondsLeft(double seconds)
+        public void setTimeLeft(float seconds)
         {
-            secondsLeft = seconds;
-        }
-        public long getStartTime()
-        {
-            return startTime;
-        }
-        public void setStartTime(long startTime)
-        {
-            this.startTime = startTime;
+            timeLeft = seconds;
         }
         public int getPlayerNumber()
         {

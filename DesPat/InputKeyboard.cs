@@ -74,7 +74,7 @@ namespace DesPat
             }
         }
 
-        public void update()
+        public void update(float deltaTime)
         {
             KBS = Keyboard.GetState();
         }

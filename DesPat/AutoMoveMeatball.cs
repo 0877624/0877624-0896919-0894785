@@ -11,14 +11,12 @@ namespace DesPat
         float speed;
         public float toAddX;
         public float toAddY;
-        long startTime;
 
         public AutoMoveMeatball(TextureObj obj, float speed, float angle)
         {
             this.obj = obj;
             this.speed = speed;
             calculateToAdd(angle);
-            startTime = DateTime.Now.Ticks;
         }
         public void calculateToAdd(float angle)
         {
@@ -50,14 +48,6 @@ namespace DesPat
         public float getSpeed()
         {
             return speed;
-        }
-        public long getStartTime()
-        {
-            return startTime;
-        }
-        public void setStartTime(long startTime)
-        {
-            this.startTime = startTime;
         }
     }
 }

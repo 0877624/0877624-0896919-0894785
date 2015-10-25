@@ -19,17 +19,22 @@ namespace DesPat
         private static List<AutoMoveProjectile> toAutomateProjectiles = new List<AutoMoveProjectile>();
         private static List<AutoMoveProjectile> toDeautomateProjectiles = new List<AutoMoveProjectile>();
 
-        private List<AutoMoveMeatball> meatballs = new List<AutoMoveMeatball>();
+        public static List<AutoMoveMeatball> meatballs = new List<AutoMoveMeatball>();
         private static List<AutoMoveMeatball> toDeautomateMeatballs = new List<AutoMoveMeatball>();
         private static List<AutoMoveMeatball> toAutomateMeatballs = new List<AutoMoveMeatball>();
 
-        public static List<Texture2D> imageList = new List<Texture2D>();
         public static List<Player> playerList = new List<Player>();
+        public static List<Player> toAddPlayers = new List<Player>();
+        public static List<Player> toRemovePlayers = new List<Player>();
+
+        public static List<Texture2D> imageList = new List<Texture2D>();
 
         private static bool changeInLists = false;
         private static bool changeInActives = false;
         private static bool changeInProjectiles = false;
-        private static bool changeInMeatballs;
+        private static bool changeInMeatballs = false;
+        private static bool changeInPlayers = false;
+
         private bool changeInCurrentScreen = false;
 
         private int playerAmount = 0;
@@ -50,7 +55,6 @@ namespace DesPat
 
         //switch stuff
         private Random random = new Random();
-        private int pc = 0;
         private int maximumMeatballs;
 
         public Main()
@@ -82,10 +86,8 @@ namespace DesPat
                         graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
                         graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 
-
                         screenWidth = GraphicsDevice.Viewport.Width;
                         screenHeight = GraphicsDevice.Viewport.Height;
-
 
                         Texture2D mainScreen = Content.Load<Texture2D>("MainScreen.png");
                         imageList.Add(mainScreen);
@@ -139,7 +141,6 @@ namespace DesPat
                         imageList.Add(health0Image);
 
                         //Load player images and create player Objects.
-                        System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
                         imageList.Add(playerImage);
                         Player playerOne = createPlayer(imageList.Find(name => name.Name == "Banana.png"),
@@ -147,7 +148,6 @@ namespace DesPat
                             new Vector2(48, 16), new InputKeyboard(Keys.Escape, Keys.W, Keys.A, Keys.S, Keys.D, Keys.Space));
                         playerOne.addWeapon(new bananaShot(playerOne));
 
-                        System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D player2Image = Content.Load<Texture2D>("Strawberry.png");
                         imageList.Add(player2Image);
 
@@ -158,7 +158,6 @@ namespace DesPat
                             new InputController(PlayerIndex.One)));
                         playerTwo.addWeapon(new bananaShot(playerTwo));
 
-                        System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D player3Image = Content.Load<Texture2D>("Pear.png");
                         imageList.Add(player3Image);
                         Player playerThree = createPlayer(imageList.Find(name => name.Name == "Pear.png"), screenWidth / 4 * 1 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, 
@@ -167,7 +166,6 @@ namespace DesPat
                             new InputController(PlayerIndex.Two)));
                         playerThree.addWeapon(new bananaShot(playerThree));
 
-                        System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D player4Image = Content.Load<Texture2D>("Grapes.png");
                         imageList.Add(player4Image);
                         Player playerFour = createPlayer(imageList.Find(name => name.Name == "Grapes.png"), screenWidth / 4 * 3 - player3Image.Width / 2, screenHeight / 4 * 3 - player3Image.Height / 2, 2.5f, 5f, 
@@ -207,7 +205,6 @@ namespace DesPat
                         imageList.Add(health0Image);
 
                         //Load player images and create player Objects.
-                        System.Diagnostics.Debug.WriteLine("Making a player ");
                         Texture2D playerImage = Content.Load<Texture2D>("Banana.png");
                         imageList.Add(playerImage);
                         Player playerOne = createPlayer(imageList.Find(name => name.Name == "Banana.png"), 
@@ -216,7 +213,6 @@ namespace DesPat
                         playerOne.addWeapon(new bananaShot(playerOne));
                         break;
                     }
-
                 default:
                     {
                         break;
@@ -228,6 +224,7 @@ namespace DesPat
             float rotateSpeed, Vector2 healthBarLocation, Input playerInput)
         {
             playerAmount++;
+            System.Diagnostics.Debug.WriteLine("Making a player: " + playerAmount);
             TextureObj playerObj = new TextureObj(playerAmount, playerImage, new Vector2(x, y), 
                 new Rectangle(0, 0, playerImage.Width, playerImage.Height), Color.White, 0, 
                 new Vector2(playerImage.Width / 2, playerImage.Height / 2), 1.0f, SpriteEffects.None, 1, "Player");
@@ -244,6 +241,8 @@ namespace DesPat
         }
         protected override void Update(GameTime gameTime)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             //check if the screen should change to another "level".
             if (changeInCurrentScreen)
             {
@@ -252,7 +251,7 @@ namespace DesPat
                 changeInCurrentScreen = false;
             }
 
-            //check if either the Actives list, Projectile list or Meatball list has been changed.
+            //check if either the Actives list, Projectile list, Meatball list or Player list has been changed.
             if (changeInLists)
             {
                 if (changeInActives)
@@ -267,6 +266,10 @@ namespace DesPat
                 {
                     changeMeatballs();
                 }
+                if (changeInPlayers)
+                {
+                    changePlayers();
+                }
             }
 
             var KBS = Keyboard.GetState();
@@ -275,7 +278,7 @@ namespace DesPat
 
             switch (currentScreen)
             {
-                //case 0 means the min screen.
+                //case 0 means the main screen.
                 case 0:
                     //Make sure controller One can move the mouse in the main screen.
                     Mouse.SetPosition((int)(newMS.X + gpdOne.ThumbSticks.Left.X * 6), (int)(newMS.Y - gpdOne.ThumbSticks.Left.Y * 6));
@@ -300,24 +303,24 @@ namespace DesPat
                     break;
                 //case 1 means the PvP with 4 players.
                 case 1:
-                    //Does what the method name says.
-                    moveAndCheckCollisionProjectiles();
+                    //Moves the projectile and checks if it collised with any of the actives.
+                    moveAndCheckCollisionProjectiles(deltaTime);
 
                     //check if a player has pressed any keys, and react.
                     foreach (Player player in playerList)
                     {
-                        player.checkInput();
+                        player.checkInput(deltaTime);
                     }
                     break;
-                //case 2 means the 1-player fight where you can shoot meatball. Not much else.
+                //case 2 means the 1-player fight where you can shoot meatballs. Not much else.
                 case 2:
-                    //Does what method name says.
-                    moveAndCheckCollisionProjectiles();
+                    //Moves the projectile and checks if it collised with any of the actives.
+                    moveAndCheckCollisionProjectiles(deltaTime);
 
                     //check if a player has pressed any keys.
                     foreach (Player player in playerList)
                     {
-                        player.checkInput();
+                        player.checkInput(deltaTime);
                     }
 
                     //this switch generates the meatballs.
@@ -362,6 +365,7 @@ namespace DesPat
                     Exit();
                     break;
             }
+
             //Exit the game if controllers 1-3 press back, or keyboard presses escape.
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
                 || GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed 
@@ -408,83 +412,67 @@ namespace DesPat
             base.Draw(gameTime);
         }
 
-        public void moveAndCheckCollisionProjectiles()
+        public void moveAndCheckCollisionProjectiles(float deltaTime)
         {
+            //Check if there are any projectiles.
             if (projectileObjects.Count != 0)
             {
+                //Loop through the existing projectiles
                 for (int i = 0; i < projectileObjects.Count; i++)
                 {
                     AutoMoveProjectile obj = projectileObjects[i];
+                    //Check the current projectile (obj) against all active objects through a loop (collisionCheck);
                     foreach (TextureObj collisionCheck in activeObjects)
                     {
-                        //System.Diagnostics.Debug.WriteLine("obj playerNumber: " + obj.getPlayerNumber() + ", checkNumber: " + collisionCheck.getPlayerNumber());
                         bool collidable = true;
-
                         //in this if statement, add any Type which shouldnt collide with projectiles. Like background and GUI.
                         if (collisionCheck.getType().Equals("Background") || collisionCheck.getType().Equals("Healthbar"))
                         {
                             collidable = false;
                         }
-                        //this if checks if the TextureObj is not the player that shot the projectile.
-                        if (obj.getPlayerNumber() != collisionCheck.getPlayerNumber() && collidable == true)
+                        //this if checks if the TextureObj is not the player that shot the projectile, or if its not checking against itself
+                        if (obj.getPlayerNumber() != collisionCheck.getPlayerNumber() && obj.getObject() != collisionCheck && collidable == true)
                         {
-                            //this if checks if the TextureObj is not the same as the Projectile.
-                            if (obj.getObject() != collisionCheck)
+                            //this if checks if the Projectile (obj) hit a texture (checkCollision).
+                            if (obj.getObject().checkCollision(collisionCheck))
                             {
-                                //this if checks if the Projectile hit something.
-                                if (obj.getObject().checkCollision(collisionCheck))
+                                //if the playerNumber of the texture object is not 0, a player has been hit.
+                                if (collisionCheck.getPlayerNumber() != 0)
                                 {
-                                    //if the playerNumber of the texture object is not 0, a player has been hit.
-                                    if (collisionCheck.getPlayerNumber() != 0)
-                                    {
-                                        System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() 
-                                            + " has COLLISION with Player: " + collisionCheck.getPlayerNumber());
-                                        //Here you can handle the collision with a player, like lowering the HP of the hit target.
+                                    System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() + " has COLLISION with Player: " + collisionCheck.getPlayerNumber());
+                                    //Here you can handle the collision with a player, like lowering the HP of the hit target.
 
-                                        Player hitPlayer = playerList.Find(player => player.getPlayerNumber() == collisionCheck.getPlayerNumber());
-                                        hitPlayer.changeHealth(hitPlayer.getHealth() - 1);
-
-                                    }
-                                    //else the hit object is not a player.
-                                    else
-                                    {
-                                        System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() 
-                                            + " has COLLISION with something: " + collisionCheck.getType());
-                                        //here you can handle the collision with a non-player object.
-
-                                        if (collisionCheck.getType().Equals("Seed") 
-                                            || collisionCheck.getType().Equals("Strawberry slice") 
-                                            || collisionCheck.getType().Equals("Banana slice") 
-                                            || collisionCheck.getType().Equals("Pear slice") 
-                                            || collisionCheck.getType().Equals("Grape slice"))
-                                        {
-                                            projectileObjects.Find(findProjectile => findProjectile.getObject() == collisionCheck).setSecondsLeft(0);
-                                        }
-                                        else if(collisionCheck.getType().Equals("Meatball"))
-                                        {
-                                            removeAsMeatball(meatballs.Find(meatball => meatball.getObject() == collisionCheck));
-                                            removeAsActive(collisionCheck);
-                                        }
-                                    }
-
-                                    //Delete the projectile that hit something.
-                                    obj.setSecondsLeft(0);
+                                    Player hitPlayer = playerList.Find(player => player.getPlayerNumber() == collisionCheck.getPlayerNumber());
+                                    hitPlayer.changeHealth(hitPlayer.getHealth() - 1);
                                 }
+                                //else the hit object is not a player.
+                                else
+                                {
+                                    System.Diagnostics.Debug.WriteLine("Projectile from player: " + obj.getPlayerNumber() + " has COLLISION with something: " + collisionCheck.getType());
+                                    //here you can handle the collision with a non-player object.
+                                    if (collisionCheck.getType().Equals("Seed")
+                                        || collisionCheck.getType().Equals("Strawberry slice")
+                                        || collisionCheck.getType().Equals("Banana slice")
+                                        || collisionCheck.getType().Equals("Pear slice")
+                                        || collisionCheck.getType().Equals("Grape slice"))
+                                    {
+                                        projectileObjects.Find(findProjectile => findProjectile.getObject() == collisionCheck).setTimeLeft(0);
+                                    }
+                                    else if (collisionCheck.getType().Equals("Meatball"))
+                                    {
+                                        removeAsMeatball(meatballs.Find(meatball => meatball.getObject() == collisionCheck));
+                                       removeAsActive(collisionCheck);
+                                    }
+                                }
+                                //Delete the projectile that hit something.
+                                obj.setTimeLeft(0);
                             }
                         }
                     }
-                    if (obj.getSecondsLeft() != 0)
+                    if (obj.getTimeLeft() > 0)
                     {
                         obj.getObject().addToLocation(obj.toAddX, obj.toAddY);
-
-                        long currentTime = DateTime.Now.Ticks;
-                        long seedTimeDifference = (currentTime - obj.getStartTime()) / 10000000;
-                        //System.Diagnostics.Debug.WriteLine("Difference: " + seedTimeDifference + ", secondsleft: " + obj.getSecondsLeft());
-                        if (seedTimeDifference >= 1)
-                        {
-                            obj.setStartTime(currentTime);
-                            obj.setSecondsLeft(obj.getSecondsLeft() - 1);
-                        }
+                        obj.setTimeLeft(obj.getTimeLeft() - deltaTime);
                     }
                     else
                     {
@@ -494,7 +482,7 @@ namespace DesPat
                 }
             }
         }
-        
+
         public void moveMeatballs()
         {
             if (meatballs.Count != 0)
@@ -528,7 +516,7 @@ namespace DesPat
 
         public void createMeatball()
         {
-            Texture2D meatballImage = Main.imageList.Find(name => name.Name == "Meatball.png");
+            Texture2D meatballImage = imageList.Find(name => name.Name == "Meatball.png");
 
             Vector2 location = new Vector2(0, 0);
             float angle = 0;
@@ -563,13 +551,12 @@ namespace DesPat
             }
 
             TextureObj projectileObj = new TextureObj(meatballImage, location, new Rectangle(0, 0, meatballImage.Width, meatballImage.Height), Color.White, angle, new Vector2(meatballImage.Width / 2, meatballImage.Height / 2), scale, SpriteEffects.None, 1.0f, "Meatball");
-            Main.addAsActive(projectileObj);
-            Main.addAsMeatball(new AutoMoveMeatball(projectileObj, speed, angle));
+            addAsActive(projectileObj);
+            addAsMeatball(new AutoMoveMeatball(projectileObj, speed, angle));
         }
 
         //the following 9 methods are to make sure a list will not be altered while a loop is checking them.
         //Instead if changes are made they will be done at the start of the update() method.
-
         private void changeMeatballs()
         {
             foreach (AutoMoveMeatball waitingMeatball in toAutomateMeatballs)
@@ -611,18 +598,43 @@ namespace DesPat
             }
             toDeautomateProjectiles.Clear();
             changeInProjectiles = false;
-            changeInLists = false;
         }
         public static void addAsAutomatic(AutoMoveProjectile obj)
         {
             toAutomateProjectiles.Add(obj);
             changeInProjectiles = true;
-            changeInLists = true;
         }
         public static void removeAsProjectile(AutoMoveProjectile obj)
         {
             toDeautomateProjectiles.Add(obj);
             changeInProjectiles = true;
+        }
+
+        private void changePlayers()
+        {
+            foreach (Player player in toAddPlayers)
+            {
+                playerList.Add(player);
+            }
+            toAddPlayers.Clear();
+            foreach (Player player in toRemovePlayers)
+            {
+                playerList.Remove(player);
+            }
+            toRemovePlayers.Clear();
+            changeInPlayers = false;
+            changeInLists = false;
+        }
+        public static void addAsPlayer(Player player)
+        {
+            toAddPlayers.Add(player);
+            changeInPlayers = true;
+            changeInLists = true;
+        }
+        public static void removeAsPlayer(Player player)
+        {
+            toRemovePlayers.Add(player);
+            changeInPlayers = true;
             changeInLists = true;
         }
 

@@ -16,6 +16,6 @@ namespace DesPat
         bool shooting { get; }
 
         void vibrate();
-        void update();
+        void update(float deltaTime);
     }
 }

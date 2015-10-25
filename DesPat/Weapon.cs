@@ -20,7 +20,7 @@ namespace DesPat
         Player player;
         protected string projectileImageString;
         protected string projectileType;
-        protected double seconds;
+        protected float seconds;
         protected float speed;
 
         public fruitShot(Player player)
@@ -42,6 +42,7 @@ namespace DesPat
             Texture2D projectileImage = Main.imageList.Find(name => name.Name == projectileImageString);
             return new TextureObj(projectileImage, player.getTextureObj().getLocation(), new Rectangle(0, 0, projectileImage.Width, projectileImage.Height), Color.White, 0, new Vector2(projectileImage.Width / 2, projectileImage.Height / 2), 1.0f, SpriteEffects.None, 1, projectileType);
         }
+
     }
 
     //The four different kind of projectiles.
@@ -51,7 +52,7 @@ namespace DesPat
         { 
             this.projectileImageString = "Projectile-banana.png";
             this.projectileType = "Banana slice";
-            this.seconds = 5.0;
+            this.seconds = 5.0f;
             this.speed = 5f;
         }
     }
@@ -61,7 +62,7 @@ namespace DesPat
         {
             this.projectileImageString = "Projectile-strawberry.png";
             this.projectileType = "Strawberry slice";
-            this.seconds = 5.0;
+            this.seconds = 5.0f;
             this.speed = 5f;
         }
     }
@@ -71,7 +72,7 @@ namespace DesPat
         {
             this.projectileImageString = "Projectile-pear.png";
             this.projectileType = "Pear slice";
-            this.seconds = 5.0;
+            this.seconds = 5.0f;
             this.speed = 5f;
         }
     }
@@ -81,7 +82,7 @@ namespace DesPat
         {
             this.projectileImageString = "Projectile-grape.png";
             this.projectileType = "Grape slice";
-            this.seconds = 5.0;
+            this.seconds = 5.0f;
             this.speed = 5f;
         }
     }

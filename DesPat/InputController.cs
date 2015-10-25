@@ -15,7 +15,8 @@ namespace DesPat
         public static SharpDX.XInput.Controller controller;
         public static SharpDX.XInput.Vibration vibration = new SharpDX.XInput.Vibration();
         bool doVibrate;
-        long vibrateStart;
+        float vibrateTime = 0.5f;
+        float vibrateTimeLeft;
 
         public InputController(PlayerIndex playerIndex)
         {
@@ -89,19 +90,21 @@ namespace DesPat
             {
                 System.Diagnostics.Debug.Print("PlayerIndex: " + playerIndex + ", IS CONTROLLER CONNECTED");
 
-                vibrateStart = DateTime.Now.Ticks;
+                vibrateTimeLeft = vibrateTime;
                 doVibrate = true;
             }
         }
-        public void update()
+        public void update(float deltaTime)
         {
             GPS = GamePad.GetState(playerIndex);
             if(doVibrate)
             {
+                vibrateTimeLeft -= deltaTime;
+
                 vibration.LeftMotorSpeed = 65000;
                 vibration.RightMotorSpeed = 65000;
                 controller.SetVibration(vibration);
-                if((DateTime.Now.Ticks - vibrateStart)/ 5000000 >= 1)
+                if(vibrateTimeLeft <= 0)
                 {
                     doVibrate = false;
                     vibration.LeftMotorSpeed = 0;

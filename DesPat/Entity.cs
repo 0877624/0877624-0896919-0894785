@@ -14,9 +14,9 @@ namespace DesPat
         protected float movementSpeed;
         protected float rotateSpeed;
 
-        protected void checkInput()
+        protected void checkInput(float deltaTime)
         {
-            entityInput.update();
+            entityInput.update(deltaTime);
             executeMovement(entityInput.up, entityInput.left, entityInput.down, entityInput.right);
         }
         private void executeMovement(bool up, bool left, bool down, bool right)

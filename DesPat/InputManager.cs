@@ -64,10 +64,10 @@ namespace DesPat
             }
         }
 
-        public void update()
+        public void update(float deltaTime)
         {
-            inputOne.update();
-            inputTwo.update();
+            inputOne.update(deltaTime);
+            inputTwo.update(deltaTime);
         }
         public void vibrate()
         {

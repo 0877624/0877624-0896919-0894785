@@ -9,7 +9,8 @@ namespace DesPat
         private int playerNumber;
 
         //lastShot holds the time since last shot fired.
-        private long lastShot = 0;
+        private float timeBetweenShots = 0.5f;
+        private float timeSinceLastShot = 0;
 
         //maxHealth is the max health, health is the currentHealth and is the field that changes when the player is hit.
         private double maxHealth = 6;
@@ -33,20 +34,20 @@ namespace DesPat
             Main.addAsActive(new TextureObj(playerNumber, healthBar, healthBarLocation, new Rectangle(0, 0, healthBar.Width, healthBar.Height), Color.White, 0, new Vector2(healthBar.Width / 2, healthBar.Height / 2), 1.0f, SpriteEffects.None, 1, "Healthbar"));
         }
 
-        //CheckInput is called every update for every player. It will check if input is happening and respond with
-        //whatever has to happen.
-        public new void checkInput()
+        //CheckInput is called every update for every player. It will check if input is happening and
+        //respond with whatever has to happen. It also updates the player's weapon.
+        public new void checkInput(float deltaTime)
         {
-            base.checkInput();
+            base.checkInput(deltaTime);
+            timeSinceLastShot += deltaTime;
             if (playerWeapon != null)
             {
                 if (entityInput.shooting)
                 {
-                    System.Diagnostics.Debug.Print("SHOOOOOOOOOTINGGGGGGG");
-                    if (lastShot == 0 || (DateTime.Now.Ticks - lastShot) / 5000000 >= 1)
+                    if (timeSinceLastShot >= timeBetweenShots)
                     {
                         playerWeapon.shoot();
-                        lastShot = DateTime.Now.Ticks;
+                        timeSinceLastShot = 0;
                         entityInput.vibrate();
                     }
                 }
@@ -72,7 +73,7 @@ namespace DesPat
             //If health is less than 0, remove the player from active textures and from the playerList.
             if(health <= 0)
             { 
-                Main.playerList.Remove(this);
+                Main.removeAsPlayer(this);
                 Main.removeAsActive(textureObj);
             }
         }
