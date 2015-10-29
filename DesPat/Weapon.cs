@@ -50,40 +50,40 @@ namespace DesPat
     {
         public bananaShot(Player player) : base(player)
         { 
-            this.projectileImageString = "Projectile-banana.png";
-            this.projectileType = "Banana slice";
-            this.seconds = 5.0f;
-            this.speed = 5f;
+            projectileImageString = "Projectile-banana.png";
+            projectileType = "Banana slice";
+            seconds = 5.0f;
+            speed = 5f;
         }
     }
     public class strawberryShot : fruitShot
     {
         public strawberryShot(Player player) : base(player)
         {
-            this.projectileImageString = "Projectile-strawberry.png";
-            this.projectileType = "Strawberry slice";
-            this.seconds = 5.0f;
-            this.speed = 5f;
+            projectileImageString = "Projectile-strawberry.png";
+            projectileType = "Strawberry slice";
+            seconds = 5.0f;
+            speed = 5f;
         }
     }
     public class pearShot : fruitShot
     {
         public pearShot(Player player) : base(player)
         {
-            this.projectileImageString = "Projectile-pear.png";
-            this.projectileType = "Pear slice";
-            this.seconds = 5.0f;
-            this.speed = 5f;
+            projectileImageString = "Projectile-pear.png";
+            projectileType = "Pear slice";
+            seconds = 5.0f;
+            speed = 5f;
         }
     }
     public class grapeShot : fruitShot
     {
         public grapeShot(Player player) : base(player)
         {
-            this.projectileImageString = "Projectile-grape.png";
-            this.projectileType = "Grape slice";
-            this.seconds = 5.0f;
-            this.speed = 5f;
+            projectileImageString = "Projectile-grape.png";
+            projectileType = "Grape slice";
+            seconds = 5.0f;
+            speed = 5f;
         }
     }
 }
