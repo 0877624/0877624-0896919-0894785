@@ -6,8 +6,17 @@ using System.Collections.Generic;
 
 namespace DesPat
 {
+    enum IResult
+    {
+        Done,
+        DoneAndCreate,
+        Running,
+        RunningAndCreate
+    }
+
     public class Main : Game
     {
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -39,11 +48,17 @@ namespace DesPat
 
         private int playerAmount = 0;
         private static bool forceExit = false;
-
-        //case 2
-        public int gamePC = 0, iLine1, iLine5, rndLine1, rndLine5;
-        public Random randomGen = new Random();
-        public float timeToWaitLine4, timeToWaitLine3;
+        public static Random randomGen = new Random();
+        Instruction gameLogic =
+        new Repeat(
+         new For(0, 100, i =>
+               new Wait(() => i * 0.1f) +
+               new CreateMeatball()) +
+         new Wait(() => randomGen.Next(1, 5)) +
+         new For(0, 100, i =>
+               new Wait(() => (float)randomGen.NextDouble() * 1.0f + 0.2f) +
+               new CreateMeatball()) +
+         new Wait(() => randomGen.Next(2, 3)));
 
         //screen Parameters
         public static int screenWidth;
@@ -55,7 +70,6 @@ namespace DesPat
 
         //switch stuff
         private Random random = new Random();
-        private int maximumMeatballs;
 
         public Main()
         {
@@ -150,13 +164,12 @@ namespace DesPat
 
                         Texture2D player2Image = Content.Load<Texture2D>("Strawberry.png");
                         imageList.Add(player2Image);
-
                         Player playerTwo = createPlayer(imageList.Find(name => name.Name == "Strawberry.png"), 
                             screenWidth / 4 * 3 - player2Image.Width / 2, screenHeight / 4 - player2Image.Height / 2, 2.5f, 5f, 
                             new Vector2(screenWidth - 48, 16), new InputManager(
                             new InputKeyboard(Keys.Escape, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.RightShift), 
                             new InputController(PlayerIndex.One)));
-                        playerTwo.addWeapon(new bananaShot(playerTwo));
+                        playerTwo.addWeapon(new strawberryShot(playerTwo));
 
                         Texture2D player3Image = Content.Load<Texture2D>("Pear.png");
                         imageList.Add(player3Image);
@@ -164,7 +177,7 @@ namespace DesPat
                             new Vector2(48, screenHeight - 16), new InputManager(
                             new InputKeyboard(Keys.Escape, Keys.I, Keys.J, Keys.K, Keys.L, Keys.RightAlt), 
                             new InputController(PlayerIndex.Two)));
-                        playerThree.addWeapon(new bananaShot(playerThree));
+                        playerThree.addWeapon(new pearShot(playerThree));
 
                         Texture2D player4Image = Content.Load<Texture2D>("Grapes.png");
                         imageList.Add(player4Image);
@@ -172,7 +185,7 @@ namespace DesPat
                             new Vector2(screenWidth - 48, screenHeight - 16), new InputManager(
                             new InputKeyboard(Keys.Escape, Keys.NumPad8, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.Enter), 
                             new InputController(PlayerIndex.Three)));
-                        playerFour.addWeapon(new bananaShot(playerFour));
+                        playerFour.addWeapon(new grapeShot(playerFour));
                         break;
                     }
 
@@ -324,34 +337,13 @@ namespace DesPat
                     }
 
                     //this switch generates the meatballs.
-                    switch (gamePC)
+                    switch (gameLogic.Execute(deltaTime))
                     {
-                        case 0:
-                            if (true)
-                            {
-                                gamePC = 1;
-                                maximumMeatballs = (int) (2 / playerAmount);
-                            }
+                        case IResult.DoneAndCreate:
+                            createMeatball();
                             break;
-
-                        case 1:
-                            if (meatballs.Count < maximumMeatballs)
-                            {
-                                System.Diagnostics.Debug.WriteLine("Max meat:: " + maximumMeatballs);
-                                createMeatball();
-                            }
-                            else
-                            {
-                                gamePC = 2;
-                            }
-                            break;
-
-                        case 2:
-                            maximumMeatballs = (int)((maximumMeatballs + 2) / playerAmount);
-                            gamePC = 1;
-                            break;
-
-                        default:
+                        case IResult.RunningAndCreate:
+                            createMeatball();
                             break;
                     }
 
@@ -521,7 +513,7 @@ namespace DesPat
             Vector2 location = new Vector2(0, 0);
             float angle = 0;
             float speed = (float)(random.NextDouble() * 20) + 1.0f;
-            float scale = (float)(random.NextDouble() * 4);
+            float scale = (float)(random.NextDouble() * 4) + 1.0f;
 
             int n = random.Next(4);
             if(n == 0)

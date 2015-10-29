@@ -29,16 +29,6 @@ namespace DesPat
         Vector2 hitboxTR;
         Vector2 hitboxBL;
         Vector2 hitboxBR;
-        private Texture2D projectileImage;
-        private Func<Vector2> getLocation1;
-        private Rectangle rectangle;
-        private Color white;
-        private int v1;
-        private Vector2 vector2;
-        private float v2;
-        private SpriteEffects none;
-        private int v3;
-        private string v4;
 
         public TextureObj(Texture2D texture, Vector2 location, Rectangle sourceRectangle, Color color, float angle, Vector2 origin, float scale, SpriteEffects effects, float layerDepth, String type)
         {
@@ -58,8 +48,6 @@ namespace DesPat
             hitboxBL = new Vector2(location.X - (texture.Width / 2) * scale, location.Y + (texture.Height / 2) * scale);
             hitboxBR = new Vector2(location.X + (texture.Width / 2) * scale, location.Y + (texture.Height / 2) * scale);
 
-            //System.Diagnostics.Debug.WriteLine("X: " + hitboxTL.X);
-            //System.Diagnostics.Debug.WriteLine("Y: " + hitboxTL.Y);
         }
 
         public TextureObj(int playerNumber, Texture2D texture, Vector2 location, Rectangle sourceRectangle, Color color, float angle, Vector2 origin, float scale, SpriteEffects effects, float layerDepth, String type)
@@ -80,22 +68,6 @@ namespace DesPat
             hitboxBL = new Vector2(location.X - (texture.Width / 2) * scale, location.Y + (texture.Height / 2) * scale);
             hitboxBR = new Vector2(location.X + (texture.Width / 2) * scale, location.Y + (texture.Height / 2) * scale);
 
-            //System.Diagnostics.Debug.WriteLine("X: " + hitboxTL.X);
-            //System.Diagnostics.Debug.WriteLine("Y: " + hitboxTL.Y);
-        }
-
-        public TextureObj(Texture2D projectileImage, Func<Vector2> getLocation1, Rectangle rectangle, Color white, int v1, Vector2 vector2, float v2, SpriteEffects none, int v3, string v4)
-        {
-            this.projectileImage = projectileImage;
-            this.getLocation1 = getLocation1;
-            this.rectangle = rectangle;
-            this.white = white;
-            this.v1 = v1;
-            this.vector2 = vector2;
-            this.v2 = v2;
-            this.none = none;
-            this.v3 = v3;
-            this.v4 = v4;
         }
 
         public void drawObj(SpriteBatch spriteBatch)
@@ -183,14 +155,8 @@ namespace DesPat
         }
         public bool checkCollision(TextureObj obj)
         {
-            //System.Diagnostics.Debug.WriteLine("Checking for Collision");
-            //System.Diagnostics.Debug.WriteLine("This BL X: " + this.hitboxBL.X + ", collision BL X: " + obj.hitboxBL.X + ", collision BR X: " + obj.hitboxBR.X);
-            //System.Diagnostics.Debug.WriteLine("This BL X: " + this.hitboxBL.X + ", collision BR X: " + obj.hitboxBR.X);
             if (this.hitboxBL.X >= obj.hitboxBL.X && this.hitboxBL.X <= obj.hitboxBR.X)
             {
-                //System.Diagnostics.Debug.WriteLine("BL left in image1");
-                //System.Diagnostics.Debug.WriteLine("This BL Y: " + this.hitboxBL.Y + ", collision BL Y: " + obj.hitboxBL.Y + ", collision TL Y: " + obj.hitboxTL.Y);
-                //System.Diagnostics.Debug.WriteLine("This BL Y: " + this.hitboxBL.Y + ", collision TL Y: " + obj.hitboxTL.Y);
                 if (this.hitboxBL.Y <= obj.hitboxBL.Y && this.hitboxBL.Y >= obj.hitboxTL.Y)
                 {
                     return true;

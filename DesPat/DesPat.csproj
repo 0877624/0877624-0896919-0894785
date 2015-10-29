@@ -40,12 +40,18 @@
   <ItemGroup>
     <Compile Include="AutoMoveMeatball.cs" />
     <Compile Include="AutoMoveProjectile.cs" />
+    <Compile Include="Wait.cs" />
+    <Compile Include="CreateMeatball.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="For.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="InputController.cs" />
     <Compile Include="InputKeyboard.cs" />
     <Compile Include="InputManager.cs" />
+    <Compile Include="Instruction.cs" />
+    <Compile Include="Next.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Repeat.cs" />
     <Compile Include="TextureObj.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
